@@ -3,9 +3,6 @@ import React from 'react'
 function Details() {
     const callalert = () => {
         alert("The site is under construction. Please wait!");
-        setTimeout(() => {
-            window.location.assign("https://th.bing.com/th/id/OIP.-r1hGfdpVQcRgkhIf4mdHwHaEK?rs=1&pid=ImgDetMain");
-        }, 0); 
     };
     return (
         <div>
