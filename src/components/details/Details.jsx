@@ -2,8 +2,9 @@ import React from 'react'
 
 function Details() {
     const callalert = () => {
-        alert("The site is under construction. Please wait!");
+        alert("The site is under construction. Please wait...!");
     };
+
     return (
         <div>
             <div className='bg-[#ffdad7] w-[400px] h-98 m-auto mt-20 outline-none ring-2 ring-white rounded-2xl shadow-2xl'>
