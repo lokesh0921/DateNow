@@ -13,6 +13,7 @@ function Home() {
 
     const navigate = useNavigate();
     const press = () => {
+        sessionStorage.setItem("fromHome", "true"); 
         navigate('/details'); // Navigate to the /details route
     };
 

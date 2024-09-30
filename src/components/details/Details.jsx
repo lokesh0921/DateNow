@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Details() {
+  const navigate = useNavigate();
+
+  // Check if user is allowed to access this page
+  useEffect(() => {
+    const hasNavigatedFromHome = sessionStorage.getItem("fromHome");
+
+    if (!hasNavigatedFromHome) {
+      navigate('/'); // Redirect to home if user hasn't come from the Home page
+    }
+  }, [navigate]);
+
   const callalert = () => {
     alert("The site is under construction. Please wait...!");
   };
 
   return (
-    <div className=" h-full  mt-0 w-full grid place-content-center">
+    <div className=" h-screen  mt-0 w-full grid place-content-center">
       <div className="bg-[#ffdad7]   rounded-xl shadow-2xl flex flex-col px-5 mx-5 overflow-auto md:my-0 md:mx-0 max-w-full">
         <div className="flex justify-center">
           <h1 className="text-2xl md:text-3xl text-black font-mono mt-10 font-bold mb-2 ">
@@ -16,7 +28,7 @@ function Details() {
         <div>
           <form className="p-6 flex flex-col justify-center">
             <div className="flex flex-col">
-              <label for="name" className="hidden">
+              <label htmlFor="name" className="hidden">
                 Full Name
               </label>
               <input
@@ -29,7 +41,7 @@ function Details() {
             </div>
 
             <div className="flex flex-col mt-2">
-              <label for="age" className="hidden">
+              <label htmlFor="age" className="hidden">
                 Age
               </label>
               <input
