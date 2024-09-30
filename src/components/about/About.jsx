@@ -5,17 +5,17 @@ import img from '../../assets/abc.jpg';
 
 export default function About() {
     return (
-        <div className="py-16 bg-[#F8A199] ">
-            <div className="container m-auto px-6 text-black md:px-12 xl:px-6 bg-white p-8 rounded-3xl">
+        <div className="py-16 bg-[#F8A199] mx-5 md:mx-52">
+            <div className="container m-auto pl-6 pr-6 xl:pl-6 xl:pr-0  text-black bg-white p-8 rounded-3xl">
                 <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
                     <div className="md:5/12 lg:w-5/12">
                         <img
                             src={img}
                             alt="image"
-                            className='shadow-2xl'
+                            className='shadow-2xl rounded-2xl'
                         />
                     </div>
-                    <div className="md:7/12 lg:w-6/12">
+                    <div className="md:7/12 lg:w-6/12 text-center">
                         <h2 className="text-2xl text-black font-bold md:text-4xl">
                         Where meaningful connections turn into lasting relationships
                         </h2>

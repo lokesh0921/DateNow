@@ -6,7 +6,11 @@ export default {
   ],
 
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'arial-black': ['"Arial Black"', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

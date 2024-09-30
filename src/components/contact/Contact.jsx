@@ -3,11 +3,11 @@ import React from 'react'
 
 export default function Contact() {
     return (
-        <div className="relative flex items-top justify-center min-h-[700px] bg-[#F8A199] sm:items-center sm:pt-0">
+        <div className="relative flex items-top justify-center min-h-[700px] bg-[#F8A199] sm:items-center sm:pt-0 md:mx-0 mx-5 mb-8">
             <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div className="mt-8 overflow-hidden">
                     <div className="grid grid-cols-1 md:grid-cols-2 bg-[#ffdad7] p-8 rounded-lg">
-                        <div className="p-6 mr-2  sm:rounded-lg shadow-lg">
+                        <div className="p-0 md:p-6 mr-2  sm:rounded-lg md:shadow-xl">
                             <h1 className="text-3xl sm:text-4xl text-black font-extrabold tracking-tight">
                                 Get in touch: 
                             </h1>
@@ -15,7 +15,7 @@ export default function Contact() {
                                 Fill in the form to start a conversation
                             </p>
 
-                            <div className="flex items-center mt-8 text-black">
+                            <div className="flex items-center mt-8 text-black p-0">
                                 <svg
                                     fill="none"
                                     stroke="currentColor"
@@ -88,7 +88,7 @@ export default function Contact() {
                             </div>
                         </div>
 
-                        <form className="p-6 flex flex-col justify-center">
+                        <form className="p-0 pt-6 md:p-6 flex flex-col justify-center">
                             <div className="flex flex-col">
                                 <label for="name" className="hidden">
                                     Full Name
