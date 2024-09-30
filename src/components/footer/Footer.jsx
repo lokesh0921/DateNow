@@ -5,7 +5,7 @@ function Footer() {
 
   return (
     <footer className="bg-black text-white text-center py-4 bottom-0 w-full fixed ">
-      <p className="text-sm pb-3">
+      <p className="text-sm">
         &copy; {year} Developer Anurag Yadav. All rights reserved.
       </p>
     </footer>
