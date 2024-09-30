@@ -1,31 +1,7 @@
 import React, { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+
 
 function Details() {
-  const navigate = useNavigate();
-
-  // Check if user is allowed to access this page
-  useEffect(() => {
-    const hasNavigatedFromHome = sessionStorage.getItem("fromHome");
-
-    if (!hasNavigatedFromHome) {
-      navigate('/'); // Redirect to home if user hasn't come from the Home page
-    }
-
-    // Handle page reload or close
-    const handleBeforeUnload = () => {
-      sessionStorage.removeItem("fromHome"); // Clear session on reload
-      navigate('/'); // Navigate to home page on reload
-    };
-
-    // Add event listener for page reload
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      // Clean up the event listener when component unmounts
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [navigate]);
 
   const callalert = () => {
     alert("The site is under construction. Please wait...!");
