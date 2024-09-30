@@ -4,7 +4,7 @@ function Footer() {
   const year = new Date().getFullYear(); // Gets the current year
 
   return (
-    <footer className="bg-black text-white text-center py-4 bottom-0 w-full fixed pb-[env(safe-area-inset-bottom)]">
+    <footer className="bg-black text-white text-center py-4 bottom-0 w-full fixed ">
       <p className="text-sm pb-3">
         &copy; {year} Developer Anurag Yadav. All rights reserved.
       </p>
