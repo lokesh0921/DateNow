@@ -6,7 +6,7 @@ function Details() {
   };
 
   return (
-    <div className=" h-screen  mt-0 w-full grid place-content-center">
+    <div className=" h-full  mt-0 w-full grid place-content-center">
       <div className="bg-[#ffdad7]   rounded-xl shadow-2xl flex flex-col px-5 mx-5 overflow-auto md:my-0 md:mx-0 max-w-full">
         <div className="flex justify-center">
           <h1 className="text-2xl md:text-3xl text-black font-mono mt-10 font-bold mb-2 ">
