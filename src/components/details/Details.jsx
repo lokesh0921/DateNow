@@ -11,6 +11,21 @@ function Details() {
     if (!hasNavigatedFromHome) {
       navigate('/'); // Redirect to home if user hasn't come from the Home page
     }
+
+    // Handle page reload or close
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      sessionStorage.removeItem("fromHome"); // Clear session on reload
+      navigate('/'); // Navigate to home page on reload
+    };
+
+    // Add event listener for page reload
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      // Clean up the event listener when component unmounts
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, [navigate]);
 
   const callalert = () => {
@@ -18,10 +33,10 @@ function Details() {
   };
 
   return (
-    <div className=" h-screen  mt-0 w-full grid place-content-center">
-      <div className="bg-[#ffdad7]   rounded-xl shadow-2xl flex flex-col px-5 mx-5 overflow-auto md:my-0 md:mx-0 max-w-full">
+    <div className="h-screen mt-0 w-full grid place-content-center">
+      <div className="bg-[#ffdad7] rounded-xl shadow-2xl flex flex-col px-5 mx-5 overflow-auto md:my-0 md:mx-0 max-w-full">
         <div className="flex justify-center">
-          <h1 className="text-2xl md:text-3xl text-black font-mono mt-10 font-bold mb-2 ">
+          <h1 className="text-2xl md:text-3xl text-black font-mono mt-10 font-bold mb-2">
             Enter Your Detail
           </h1>
         </div>
@@ -32,11 +47,11 @@ function Details() {
                 Full Name
               </label>
               <input
-                type="name"
+                type="text"
                 name="name"
                 id="name"
                 placeholder="Full Name"
-                className="w-100 md:w-[400px] mt-2 py-3 px-3 rounded-lg bg-white border border-black text-black font-semibold  focus:outline-none focus:ring-2 focus:ring-white-500 "
+                className="w-100 md:w-[400px] mt-2 py-3 px-3 rounded-lg bg-white border border-black text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white-500"
               />
             </div>
 
@@ -45,11 +60,11 @@ function Details() {
                 Age
               </label>
               <input
-                type="age"
+                type="number"
                 name="age"
                 id="age"
                 placeholder="Age"
-                className="w-100 mt-2 py-3 px-3 rounded-lg bg-white border border-black text-black font-semibold  focus:outline-none focus:ring-2 focus:ring-white-500"
+                className="w-100 mt-2 py-3 px-3 rounded-lg bg-white border border-black text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white-500"
               />
             </div>
 
