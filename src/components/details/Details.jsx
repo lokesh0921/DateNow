@@ -14,7 +14,7 @@ function Details() {
 
     // Handle page reload or close
     const handleBeforeUnload = (event) => {
-      event.preventDefault();
+      // event.preventDefault();
       sessionStorage.removeItem("fromHome"); // Clear session on reload
       navigate('/'); // Navigate to home page on reload
     };
