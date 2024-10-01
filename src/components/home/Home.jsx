@@ -30,7 +30,7 @@ function Home() {
                 </h3>
                 <button
                     type="submit" onClick={press}
-                    className="md:w-32 bg-orange-700 hover:bg-blue-dark text-white font-bold py-2 px-3 md:px-6 md:py-3 mb-8 rounded-lg mt-8 ml-auto hover:bg-orange-600 transition ease-in-out duration-300"
+                    className="md:w-32 bg-orange-700 hover:bg-blue-dark text-white font-bold p-3 px-3 md:px-6 md:py-3 mb-8 rounded-lg mt-8 ml-auto hover:bg-orange-600 transition ease-in-out duration-300"
                 >
                     Find Here
                 </button>

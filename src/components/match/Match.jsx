@@ -26,6 +26,15 @@ function Match() {
                     <h2 className='font-medium text-base'>Gender : Female</h2>
                 </div>
             </div>
+            <div className='flex justify-center'>
+                <button
+                        type="submit"
+                        className="md:text-base md:w-32 bg-orange-700 hover:bg-blue-dark text-white font-bold p-3  px-7 md:px-6 md:py-3 mb-8 rounded-lg mt-8 hover:bg-orange-600 transition ease-in-out duration-300"
+                >
+                    Chat
+                </button>
+            </div>
+            
         </div>
     </div>
   )
