@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 function Details() {
+  const navigate=useNavigate();
 
-  const callalert = () => {
-    alert("The site is under construction. Please wait...!");
+  const pressed = () => {
+    // alert("The site is under construction. Please wait...!");
+    navigate('/match');
   };
 
   return (
@@ -62,7 +65,7 @@ function Details() {
 
             <button
               type="submit"
-              onClick={callalert}
+              onClick={pressed}
               className="md:w-32 bg-orange-700 hover:bg-blue-dark text-white font-bold py-3 px-6 rounded-lg mt-8 ml-auto hover:bg-orange-600 transition ease-in-out duration-300"
             >
               Find
