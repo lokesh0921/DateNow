@@ -11,7 +11,7 @@ function Details() {
     e.preventDefault(); // Prevent the form from refreshing the page
 
     if (gender === "Other") {
-      alert('Fuck You Bits this site is not for you...');
+      alert('Fuck You Bitch this site is not for you...');
       window.location.href = 'https://youtu.be/j_nJPCgxYS4?si=H0SU1sJ4qozYignB';
       return;
     }
