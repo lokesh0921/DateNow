@@ -1,13 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function Details() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
 
-  const pressed = () => {
-    // alert("The site is under construction. Please wait...!");
-    navigate('/match');
+  const pressed = (e) => {
+    e.preventDefault(); // Prevent the form from refreshing the page
+
+    if (gender === "Other") {
+      alert('Fuck You Bits this site is not for you...');
+      window.location.href = 'https://youtu.be/j_nJPCgxYS4?si=H0SU1sJ4qozYignB';
+      return;
+    }
+
+    localStorage.setItem("name", name);
+    localStorage.setItem("age", age);
+    localStorage.setItem("gender", gender);
+
+    navigate("/match");
   };
 
   return (
@@ -19,7 +32,7 @@ function Details() {
           </h1>
         </div>
         <div>
-          <form className="p-6 flex flex-col justify-center">
+          <form className="p-6 flex flex-col justify-center" onSubmit={pressed}>
             <div className="flex flex-col">
               <label htmlFor="name" className="hidden">
                 Full Name
@@ -29,6 +42,8 @@ function Details() {
                 name="name"
                 id="name"
                 placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="w-100 md:w-[400px] mt-2 py-3 px-3 rounded-lg bg-white border border-black text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white-500"
               />
             </div>
@@ -42,6 +57,8 @@ function Details() {
                 name="age"
                 id="age"
                 placeholder="Age"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
                 className="w-100 mt-2 py-3 px-3 rounded-lg bg-white border border-black text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white-500"
               />
             </div>
@@ -53,19 +70,21 @@ function Details() {
               <select
                 id="gender"
                 name="gender"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
                 className="bg-white h-11 mt-2 w-150 border text-black rounded-lg py-2 px-3 border-black focus:outline-none focus:ring-2 focus:ring-white-500"
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Select your gender
                 </option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
               </select>
             </div>
 
             <button
               type="submit"
-              onClick={pressed}
               className="md:w-32 bg-orange-700 hover:bg-blue-dark text-white font-bold py-3 px-6 rounded-lg mt-8 ml-auto hover:bg-orange-600 transition ease-in-out duration-300"
             >
               Find

@@ -4,6 +4,11 @@ import profile from './profile.png'
 import { useNavigate } from 'react-router-dom'
 
 function Match() {
+
+    const namevalue=localStorage.getItem("name");
+    const agevalue=localStorage.getItem("age");
+    const gendervalue=localStorage.getItem("gender");
+
     const navigate=useNavigate();
     const press = () => {
         navigate('/chat'); // Navigate to the /details route
@@ -17,16 +22,16 @@ function Match() {
             <div className='flex flex-col md:flex-row md:justify-between items-center mt-3'>
                 <div className=' sm:rounded-lg md:shadow-2xl h-[300px] w-[300px] flex flex-col items-center justify-center '>
                     <img src={profile} alt='profile' className='rounded-full w-20 md:w-32' />
-                    <h1 className='font-semibold text-xl md:text-2xl'>Anurag Yadav</h1>
-                    <h2 className='font-medium text-base md:text-xl'>Age : 18</h2>
-                    <h2 className='font-medium text-base md:text-xl'>Gender : Male</h2>
+                    <h1 className='font-semibold text-xl md:text-2xl'>{namevalue}</h1>
+                    <h2 className='font-medium text-base md:text-xl'>Age : {agevalue}</h2>
+                    <h2 className='font-medium text-base md:text-xl'>Gender : {gendervalue}</h2>
                 </div>
                 <div className='my-0 md:my-0 w-52'>
                     <img src={img} alt="Match" className='w-h-60 h-60 object-cover rounded-full'/>
                 </div>
                 <div className=' sm:rounded-lg md:shadow-2xl h-[300px] w-[300px] flex flex-col items-center justify-center'>
                     <img src={profile} alt='profile' className='rounded-full w-20 md:w-32' />
-                    <h1 className='font-semibold text-xl md:text-2xl'>Shreya Yadav</h1>
+                    <h1 className='font-semibold text-xl md:text-2xl'>Alia Bhtt</h1>
                     <h2 className='font-medium text-base md:text-lg'>Age : 18</h2>
                     <h2 className='font-medium text-base md:text-lg'>Gender : Female</h2>
                 </div>
