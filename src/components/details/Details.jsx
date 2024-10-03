@@ -16,6 +16,23 @@ function Details() {
       return;
     }
 
+    if(!name){
+      alert('Please Provide Your Name');
+      return;
+    }
+    if(!age){
+
+      alert('Please Provide Your Age');
+      return;
+    }
+    if(age<=0){
+      alert('Please Provide Your Correct Age');
+      return;
+    }
+    if(!gender){
+      alert('Please Provide Your Gender');
+      return;
+    }
     localStorage.setItem("name", name);
     localStorage.setItem("age", age);
     localStorage.setItem("gender", gender);

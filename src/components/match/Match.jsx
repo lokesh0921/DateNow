@@ -34,7 +34,7 @@ function Match() {
     // Loading state if user is not fetched yet
     if (!user) {
         return (
-            <div className="h-screen w-full grid place-content-center">
+            <div className="h-screen w-full grid place-content-center text-5xl md:text-8xl">
                 <h1>Loading...</h1>
             </div>
         );
