@@ -4,11 +4,10 @@ import profile from './profile.png';
 import { useNavigate } from 'react-router-dom';
 
 function Match() {
-    // Hooks should not be placed inside conditional blocks
     const [user, setUser] = useState(null); // Random user state
-    const navigate = useNavigate(); // Must be outside of conditional logic
+    const navigate = useNavigate(); // For navigation
 
-    // Fetch random user on component mount
+    // Fetch random user
     const fetchRandomUser = () => {
         fetch('https://randomuser.me/api/?results=1')
             .then(response => response.json())
@@ -18,13 +17,26 @@ function Match() {
     };
 
     useEffect(() => {
-        fetchRandomUser(); // Fetch random user when component mounts
-    }, []); // Empty dependency array ensures it runs once
+        fetchRandomUser(); // Fetch random user on component mount
+    }, []); // Empty dependency array ensures it runs only once
 
     // Local user data from localStorage
     const namevalue = localStorage.getItem('name');
     const agevalue = localStorage.getItem('age');
     const gendervalue = localStorage.getItem('gender');
+
+    // Set gender preference for matching
+    let preferredGender = 'male';
+    if (gendervalue === 'Male') {
+        preferredGender = 'female';
+    }
+
+    // Fetch new random user if the gender doesn't match
+    useEffect(() => {
+        if (user && user.gender !== preferredGender) {
+            fetchRandomUser();
+        }
+    }, [user, preferredGender]);
 
     // Handle navigation on button click
     const press = () => {
