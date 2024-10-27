@@ -43,13 +43,14 @@ function Cursor() {
       coords.y = e.clientY;
     };
 
+
     const animateCircles = () => {
       let x = coords.x;
       let y = coords.y;
 
       circles.forEach(function (circle, index) {
-        circle.style.left = x - 12  + "px";
-        circle.style.top = y - 12  + "px";
+        circle.style.left = x - 12 + "px";
+        circle.style.top = y - 12 + "px";
 
         circle.style.scale = (circles.length - index + 3) / circles.length;
 
@@ -76,7 +77,7 @@ function Cursor() {
         .map((_, index) => (
           <div
             key={index}
-            className="hidden lg:block circle h-6 w-6 fixed pointer-events-none rounded-full z-[99999999]"
+            className="cur hidden lg:block circle h-6 w-6 fixed pointer-events-none rounded-full z-[99999999]"
           ></div>
         ))}
     </>
