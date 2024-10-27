@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import GIF from "../../assets/chatgiphy.gif"
 
 function Chat() {
   const API_KEY = "AIzaSyAL4LLvYe5R1NuFIjysRcf3rwT6CaxU0BI"; // Define the API key directly
@@ -239,13 +240,13 @@ function Chat() {
         ) : (
           <div className="flex flex-col items-center">
             <img
-              src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRkZWQ4bGMyaGpzZHhtdHYwMzczMnI0d3ZoaWljdm1kY2hsbzJqMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ch8vP9bgwkb0fqcH2t/giphy.gif" // Replace with your GIF link
+              src={GIF} // Replace with your GIF link
               alt="Loading"
-              className="mb-4" // Adjust margin for spacing
+              className="mb-4 " // Adjust margin for spacing
             />
-            <p className="text-center text-lg">{answer}</p>
           </div>
         )}
+        <p className="text-center text-lg font-bold">{answer}</p>
       </div>
     </div>
   );
