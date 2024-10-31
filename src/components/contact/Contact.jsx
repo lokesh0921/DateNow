@@ -32,14 +32,10 @@ export default function Contact() {
   const [check, setCheck] = useState(false);
   useGSAP(() => {
     const tl=gsap.timeline();
-    tl.from(".left", {
-      x: -400,
-      duration: 1.2,
-      delay: 0.5,
-    });
+    
     tl.from(".right", {
       x: 450,
-      duration: 1.2,
+      duration: 1.5,
       delay: 0,
       scale:0,
     });
