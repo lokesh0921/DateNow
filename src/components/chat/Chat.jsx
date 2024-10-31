@@ -246,7 +246,7 @@ function Chat() {
             />
           </div>
         )}
-        <p className="text-center text-lg font-bold">{answer}</p>
+        <p className="text-center text-lg font-bold mt-3">{answer}</p>
       </div>
     </div>
   );
