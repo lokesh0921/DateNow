@@ -21,6 +21,22 @@ To get a local copy up and running, follow these steps:
 
 - Node.js and npm installed on your machine.
 
+Set up .env File
+In the project root directory, create a .env file.
+Inside .env, add the following line and replace your_api_key_here with your actual Gemini API key:
+plaintext
+Copy code
+VITE_GEMINI_API_KEY=your_api_key_here
+
+How to Get Your Google Gemini API Key
+To get your Google Gemini API key, follow these steps:
+
+Go to the Google AI Studio website.
+Sign in with your Google account.
+Navigate to the Generative AI section and create a new project or use an existing one.
+Once your project is set up, generate an API key from the API & Services section.
+Copy the generated API key and paste it into your .env file under VITE_GEMINI_API_KEY.
+
 ### Installation
 
 1. Clone the repo:
