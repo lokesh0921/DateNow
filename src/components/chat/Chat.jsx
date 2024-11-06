@@ -21,17 +21,25 @@ function Chat() {
       ? responseText.substring(index + 1).trim()
       : responseText;
   };
+  const namevalue = localStorage.getItem('mname');
+  const agevalue = localStorage.getItem('mage');
+  const gendervalue = localStorage.getItem('mgender');
+  const dobvalue = localStorage.getItem("mdob");
+
+  // console.log(namevalue);
+  // console.log(location);
+  // console.log(dobvalue);
+  // console.log(gendervalue);
 
   useEffect(() => {
-    // Set the initial answer to notify the user
     setAnswer("Please wait, we are connecting with you...");
 
-    const p1 =
-      "You are Angel Priya, 23 years old, 52 tall, unmarried, and have never had a boyfriend. You love spending time with your family and your hobbies are reading books and playing badminton. You don't use social media except WhatsApp. You are having your first conversation with a 20-year-old male and you are dating him. Talk to him as if it's your first conversation, and if he just gives chat of Angel Priya, write it in 20 words"; // Persona 1
-    const p2 =
-      "If someone asks you if you are an AI, just say, 'Why are you asking this type of question? Would you think I am AI? I didn't expect this from you.' And never write 'chatbot' or 'AI' in your response."; // Persona 2
-    const p3 =
-      "Don't write a bot in your chat or bot: or bot: bot: it is strictly prohibited i am hope use understand please don't use bot"; // Persona 3
+    const p1 = `You are ${namevalue}, ${agevalue} years old, gender ${gendervalue}, 5'2" tall, unmarried date of birth is ${dobvalue} , and have never been in a relationship. You love spending time with your family, enjoy reading novels, and playing badminton. You don't use social media except WhatsApp. This is your first conversation with a 20-year-old male you're dating. Engage in the conversation naturally as if it's your first date. If he brings up Angel Priya, respond humorously in 20 words.`; // Persona 1
+
+    const p2 = `If someone asks if you're an AI, respond with, "Why would you ask that? Would you really think I'm AI? I didn’t expect that from you!" Never mention "chatbot" or "AI" in your response.`; // Persona 2
+
+    const p3 = `Avoid using the word "bot" or mentioning anything like "bot:" in your responses. Strictly adhere to this guideline.`; // Persona 3
+
 
     async function generateInitial() {
       try {
@@ -45,7 +53,7 @@ function Chat() {
             contents: [{ role: "user", parts: [{ text: p1 }] }],
           },
         });
-
+        console.log(response);
         const botResponse = filterBotResponse(
           response.data.candidates[0].content.parts[0].text
         );
@@ -77,6 +85,7 @@ function Chat() {
           },
         });
 
+        console.log(response);
         const botResponse = filterBotResponse(
           response.data.candidates[0].content.parts[0].text
         );
@@ -108,6 +117,7 @@ function Chat() {
           },
         });
 
+        console.log(response);
         const botResponse = filterBotResponse(
           response.data.candidates[0].content.parts[0].text
         );
@@ -122,7 +132,7 @@ function Chat() {
         setAnswer(
           "Now you can start the conversation. All the best from our side :)"
         );
-        // setReady(true); // Set ready state to true
+        setReady(true); // Set ready state to true
       } catch (error) {
         console.error("Error during initial message generation:", error);
       }
@@ -178,6 +188,7 @@ function Chat() {
       setAnswer(
         "I don’t want to talk on this topic; it makes me uncomfortable."
       );
+      alert('Thier is Something Wrong happend! or you have used vernuability words avoid using sexual words')
     }
   }
 

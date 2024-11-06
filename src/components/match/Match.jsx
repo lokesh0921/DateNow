@@ -6,6 +6,11 @@ import { useNavigate } from 'react-router-dom';
 function Match() {
     const [user, setUser] = useState(null); // Random user state
     const navigate = useNavigate(); // For navigation
+    const [mname, msetName] = useState("");
+    const [mgender, setGender] = useState("");
+    const [mage, setAge] = useState("");
+    const [mdob, setDob] = useState("");
+    const [mlocation, setLocation] = useState("");
 
     // Fetch random user with error handling
     const fetchRandomUser = () => {
@@ -30,12 +35,31 @@ function Match() {
 
     // Fetch new random user if the gender or age doesn't match
     useEffect(() => {
-        if (user && (user.gender != preferredGender || user.dob.age > localUserAge + 10)) {
-            fetchRandomUser();
+        if (user) {
+            if (user.gender !== preferredGender || user.dob.age > localUserAge + 10) {
+                fetchRandomUser();
+            } else {
+                // Update state and local storage with user data
+                const fullName = `${user.name.first} ${user.name.last}`;
+                const age = user.dob.age;
+                const dob = user.dob.date;
+                const location = `${user.location.city}, ${user.location.state}, ${user.location.country}`;
+
+                msetName(fullName);
+                setAge(age);
+                setDob(dob);
+                setGender(user.gender);
+                setLocation(location);
+
+                // Store data in localStorage
+                localStorage.setItem("mname", fullName);
+                localStorage.setItem("mage", age);
+                localStorage.setItem("mgender", user.gender);
+                localStorage.setItem("mdob", dob);
+                localStorage.setItem("mlocation", location);
+            }
         }
-    }, [user]);
-    
-    
+    }, [user, preferredGender, localUserAge]);
 
     // Handle navigation on button click
     const press = () => {
@@ -52,23 +76,23 @@ function Match() {
     }
 
     return (
-        <div className='h-screen w-full grid place-content-center mx-0 my-0'>
-            <div className='bg-[#ffdad7] p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 max-h-[560px] overflow-auto'>
-                <div className='flex justify-center'>
-                    <h1 className='text-3xl font-bold'>Your Partner</h1>
+        <div className="h-screen w-full grid place-content-center mx-0 my-0">
+            <div className="bg-[#ffdad7] p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 max-h-[560px] overflow-auto">
+                <div className="flex justify-center">
+                    <h1 className="text-3xl font-bold">Your Partner</h1>
                 </div>
-                <div className='flex flex-col md:flex-row md:justify-between items-center mt-3'>
+                <div className="flex flex-col md:flex-row md:justify-between items-center mt-3">
                     {/* Local User's Profile */}
-                    <div className='sm:rounded-lg md:shadow-2xl mt-12 md:mt-0 h-[100px] md:h-[300px] w-[300px] flex flex-col items-center justify-center'>
-                        <img src={profile} alt='profile' className='rounded-full w-20 md:w-32' />
-                        <h1 className='font-semibold text-xl md:text-2xl'>{namevalue}</h1>
-                        <h2 className='font-medium text-base md:text-xl'>Age: {agevalue}</h2>
-                        <h2 className='font-medium text-base md:text-xl'>Gender: {gendervalue}</h2>
+                    <div className="sm:rounded-lg md:shadow-2xl mt-12 md:mt-0 h-[100px] md:h-[300px] w-[300px] flex flex-col items-center justify-center">
+                        <img src={profile} alt="profile" className="rounded-full w-20 md:w-32" />
+                        <h1 className="font-semibold text-xl md:text-2xl">{namevalue}</h1>
+                        <h2 className="font-medium text-base md:text-xl">Age: {agevalue}</h2>
+                        <h2 className="font-medium text-base md:text-xl">Gender: {gendervalue}</h2>
                     </div>
 
                     {/* Match Image */}
-                    <div className='my-0 md:my-0 w-52 h-48'>
-                        <img src={img} alt="Match" className='w-h-60 h-60 object-cover rounded-full' />
+                    <div className="my-0 md:my-0 w-52 h-48">
+                        <img src={img} alt="Match" className="w-h-60 h-60 object-cover rounded-full" />
                     </div>
 
                     {/* Random User's Profile */}
@@ -81,10 +105,11 @@ function Match() {
                 </div>
 
                 {/* Chat Button */}
-                <div className='flex justify-center'>
+                <div className="flex justify-center">
                     <button
-                        type="submit" onClick={press}
-                        className="md:text-base md:w-32 bg-orange-700 hover:bg-blue-dark text-white font-bold p-3  px-7 md:px-6 md:py-3  rounded-lg mt-8 hover:bg-orange-600 transition ease-in-out duration-300"
+                        type="submit"
+                        onClick={press}
+                        className="md:text-base md:w-32 bg-orange-700 hover:bg-blue-dark text-white font-bold p-3 px-7 md:px-6 md:py-3 rounded-lg mt-8 hover:bg-orange-600 transition ease-in-out duration-300"
                     >
                         Chat
                     </button>
