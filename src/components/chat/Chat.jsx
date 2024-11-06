@@ -4,7 +4,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import GIF from "../../assets/chatgiphy.gif"
 
 function Chat() {
-  const API_KEY = "AIzaSyAL4LLvYe5R1NuFIjysRcf3rwT6CaxU0BI"; // Define the API key directly
+  const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+  
   const genAI = new GoogleGenerativeAI(API_KEY); // Initialize with API key
   const [input, setInput] = useState(""); // User input
   const [ready, setReady] = useState(false);
@@ -121,7 +122,7 @@ function Chat() {
         setAnswer(
           "Now you can start the conversation. All the best from our side :)"
         );
-        setReady(true); // Set ready state to true
+        // setReady(true); // Set ready state to true
       } catch (error) {
         console.error("Error during initial message generation:", error);
       }
@@ -187,7 +188,7 @@ function Chat() {
 
   return (
     <div className="h-screen w-full grid place-content-center mx-0 my-0">
-      <div className="bg-[#ffdad7] p-5 md:p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 max-h-[580px] h-[800px] overflow-auto flex flex-col justify-between md:w-[1200px]">
+      <div className="bg-[#ffdad7] p-5 md:p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 max-h-[615px] h-[450px] md:h-[800px] overflow-auto flex flex-col justify-between md:w-[1200px]">
         {ready ? (
           <>
             {/* Chat Message Display Area */}
@@ -242,11 +243,11 @@ function Chat() {
             <img
               src={GIF} // Replace with your GIF link
               alt="Loading"
-              className="mb-4 " // Adjust margin for spacing
+              className="mb-3" // Adjust margin for spacing
             />
           </div>
         )}
-        <p className="text-center text-lg font-bold mt-3">{answer}</p>
+        <p className="text-center text-lg font-bold mt-1">{answer}</p>
       </div>
     </div>
   );
