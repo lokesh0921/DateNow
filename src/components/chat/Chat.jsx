@@ -5,7 +5,6 @@ import GIF from "../../assets/chatgiphy.gif"
 
 function Chat() {
   const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-  // const API_KEY = "AIzaSyA1du--fGizy7DuXq6SlnmILbljH3kzURo";
   
   const genAI = new GoogleGenerativeAI(API_KEY); // Initialize with API key
   const [input, setInput] = useState(""); // User input
@@ -35,11 +34,11 @@ function Chat() {
   useEffect(() => {
     setAnswer("Please wait, we are connecting with you...");
 
-    const p1 = `You are ${namevalue}, ${agevalue} years old, gender ${gendervalue}, 5'2" tall, unmarried date of birth is ${dobvalue} , and have never been in a relationship. You love spending time with your family, enjoy reading novels, and playing badminton. You don't use social media except WhatsApp. This is your first conversation with a 20-year-old male you're dating. Engage in the conversation naturally as if it's your first date. If he brings up Angel Priya, respond humorously in 20 words.`; // Persona 1
+    const p1 = `You are ${namevalue}, ${agevalue} years old, gender ${gendervalue}, 5'2" tall, unmarried date of birth is ${dobvalue} , and have never been in a relationship. You love spending time with your family, enjoy reading novels, and playing badminton. You don't use social media except WhatsApp. This is your first conversation with a person from whom you have to pretend of  dating. Engage in the conversation naturally as if it's your first date. If he brings up your name, respond humorously in 20 words.`; // Persona 1
+    // console.log(p1);
+    // const p2 = ``; // Persona 2
 
-    const p2 = `If someone asks if you're an AI, respond with, "Why would you ask that? Would you really think I'm AI? I didn’t expect that from you!" Never mention "chatbot" or "AI" in your response.`; // Persona 2
-
-    const p3 = `Avoid using the word "bot" or mentioning anything like "bot:" in your responses. Strictly adhere to this guideline.`; // Persona 3
+    const p3 = `Avoid using the word "bot" or mentioning anything like "bot:" in your responses. Strictly adhere to this guideline.  If someone asks if you're an AI, respond with, "Why would you ask that? Would you really think I'm AI? I didn’t expect that from you!" Never mention "chatbot" or "AI" in your response. talk like user that he wants to make you frends and you also become user frends`; // Persona 3
 
 
     async function generateInitial() {
@@ -64,43 +63,43 @@ function Chat() {
         );
 
         // Proceed to the next generation
-        await generateInitial2();
-      } catch (error) {
-        console.error("Error during initial message generation:", error);
-      }
-    }
-    
-    async function generateInitial2() {
-      const prompt = `${historyRef.current
-        .map((entry) => `${entry.role}: ${entry.text}`)
-        .join("\n")}\nUser: ${p2}`;
-      try {
-        const response = await axios({
-          url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: {
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-          },
-        });
-
-        console.log(response);
-        const botResponse = filterBotResponse(
-          response.data.candidates[0].content.parts[0].text
-        );
-        historyRef.current.push(
-          { role: "user", text: p2 },
-          { role: "bot", text: botResponse }
-        );
-
-        // Proceed to the next generation
         await generateInitial3();
       } catch (error) {
         console.error("Error during initial message generation:", error);
       }
     }
+    
+    // async function generateInitial2() {
+    //   const prompt = `${historyRef.current
+    //     .map((entry) => `${entry.role}: ${entry.text}`)
+    //     .join("\n")}\nUser: ${p2}`;
+    //   try {
+    //     const response = await axios({
+    //       url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
+    //       method: "post",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       data: {
+    //         contents: [{ role: "user", parts: [{ text: prompt }] }],
+    //       },
+    //     });
+
+    //     console.log(response);
+    //     const botResponse = filterBotResponse(
+    //       response.data.candidates[0].content.parts[0].text
+    //     );
+    //     historyRef.current.push(
+    //       { role: "user", text: p2 },
+    //       { role: "bot", text: botResponse }
+    //     );
+
+    //     // Proceed to the next generation
+    //     await generateInitial3();
+    //   } catch (error) {
+    //     console.error("Error during initial message generation:", error);
+    //   }
+    // }
 
     async function generateInitial3() {
       const prompt = `${historyRef.current
@@ -208,7 +207,7 @@ function Chat() {
               <div className="space-y-3">
                 {/* Only display messages from user and bot that are not initial messages */}
                 {history.length > 2 &&
-                  history.slice(6).map(
+                  history.slice(4).map(
                     (message, index) => (
                       <div
                         key={index}
