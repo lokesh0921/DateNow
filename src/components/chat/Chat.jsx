@@ -5,7 +5,7 @@ import GIF from "../../assets/chatgiphy.gif"
 
 function Chat() {
   // const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-  const API_KEY = AIzaSyAL4LLvYe5R1NuFIjysRcf3rwT6CaxU0BI;
+  const API_KEY = "AIzaSyA1du--fGizy7DuXq6SlnmILbljH3kzURo";
   
   const genAI = new GoogleGenerativeAI(API_KEY); // Initialize with API key
   const [input, setInput] = useState(""); // User input
@@ -69,7 +69,7 @@ function Chat() {
         console.error("Error during initial message generation:", error);
       }
     }
-
+    
     async function generateInitial2() {
       const prompt = `${historyRef.current
         .map((entry) => `${entry.role}: ${entry.text}`)
@@ -96,48 +96,54 @@ function Chat() {
         );
 
         // Proceed to the next generation
-        await generateInitial3();
-      } catch (error) {
-        console.error("Error during initial message generation:", error);
-      }
-    }
 
-    async function generateInitial3() {
-      const prompt = `${historyRef.current
-        .map((entry) => `${entry.role}: ${entry.text}`)
-        .join("\n")}\nUser: ${p3}`;
-      try {
-        const response = await axios({
-          url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: {
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-          },
-        });
-
-        console.log(response);
-        const botResponse = filterBotResponse(
-          response.data.candidates[0].content.parts[0].text
-        );
-        historyRef.current.push(
-          { role: "user", text: p3 },
-          { role: "bot", text: botResponse }
-        );
-
-        // Update history state and set the ready state
-        setHistory([...historyRef.current]);
-        setInput(""); // Reset the user input area
         setAnswer(
           "Now you can start the conversation. All the best from our side :)"
         );
-        setReady(true); // Set ready state to true
+        setReady(true); 
+
+        // await generateInitial3();
       } catch (error) {
         console.error("Error during initial message generation:", error);
       }
     }
+
+    // async function generateInitial3() {
+    //   const prompt = `${historyRef.current
+    //     .map((entry) => `${entry.role}: ${entry.text}`)
+    //     .join("\n")}\nUser: ${p3}`;
+    //   try {
+    //     const response = await axios({
+    //       url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
+    //       method: "post",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       data: {
+    //         contents: [{ role: "user", parts: [{ text: prompt }] }],
+    //       },
+    //     });
+
+    //     console.log(response);
+    //     const botResponse = filterBotResponse(
+    //       response.data.candidates[0].content.parts[0].text
+    //     );
+    //     historyRef.current.push(
+    //       { role: "user", text: p3 },
+    //       { role: "bot", text: botResponse }
+    //     );
+
+    //     // Update history state and set the ready state
+    //     setHistory([...historyRef.current]);
+    //     setInput(""); // Reset the user input area
+    //     setAnswer(
+    //       "Now you can start the conversation. All the best from our side :)"
+    //     );
+    //     setReady(true); // Set ready state to true
+    //   } catch (error) {
+    //     console.error("Error during initial message generation:", error);
+    //   }
+    // }
 
     generateInitial();
   }, []);

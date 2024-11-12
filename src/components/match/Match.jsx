@@ -77,7 +77,7 @@ function Match() {
 
     return (
         <div className="h-screen w-full grid place-content-center mx-0 my-0">
-            <div className="bg-[#ffdad7] p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 max-h-[560px] overflow-auto">
+            <div className="bg-[#ffdad7] p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0  max-h-[560px] overflow-auto">
                 <div className="flex justify-center">
                     <h1 className="text-3xl font-bold">Your Partner</h1>
                 </div>
