@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import img from './match.png';
-import profile from './profile.png';
+import img from '../../assets/match.png';
+import profile from '../../assets/profile.png';
 import { useNavigate } from 'react-router-dom';
 
 function Match() {
@@ -84,7 +84,7 @@ function Match() {
                 <div className="flex flex-col md:flex-row md:justify-between items-center mt-3">
                     {/* Local User's Profile */}
                     <div className="sm:rounded-lg md:shadow-2xl mt-12 md:mt-0 h-[100px] md:h-[300px] w-[300px] flex flex-col items-center justify-center">
-                        <img src={profile} alt="profile" className="rounded-full w-20 md:w-32" />
+                        <img src={profile} alt="profile" className="rounded-full w-20 md:w-32 mb-4" />
                         <h1 className="font-semibold text-xl md:text-2xl">{namevalue}</h1>
                         <h2 className="font-medium text-base md:text-xl">Age: {agevalue}</h2>
                         <h2 className="font-medium text-base md:text-xl">Gender: {gendervalue}</h2>
@@ -97,7 +97,7 @@ function Match() {
 
                     {/* Random User's Profile */}
                     <div className='sm:rounded-lg md:shadow-2xl mb-12 mt-12 md:mt-0 md:mb-0 h-[100px] md:h-[300px] w-[300px] flex flex-col items-center justify-center'>
-                        <img src={user.picture.large} alt='profile' className='rounded-full w-20 md:w-32' />
+                        <img src={user.picture.large} alt='profile' className='rounded-full w-20 md:w-32 mb-4' />
                         <h1 className='font-semibold text-xl md:text-2xl'>{user.name.first} {user.name.last}</h1>
                         <h2 className='font-medium text-base md:text-lg'>Age: {user.dob.age}</h2>
                         <h2 className='font-medium text-base md:text-lg'>Gender: {user.gender}</h2>

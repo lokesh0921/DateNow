@@ -5,8 +5,6 @@ import GIF from "../../assets/chatgiphy.gif"
 
 function Chat() {
   const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-  
-  const genAI = new GoogleGenerativeAI(API_KEY); // Initialize with API key
   const [input, setInput] = useState(""); // User input
   const [ready, setReady] = useState(false);
   const [answer, setAnswer] = useState("");

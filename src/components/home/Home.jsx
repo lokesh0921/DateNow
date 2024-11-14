@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
-import img from './img1.svg'
+import img from '../../assets/img1.svg'
 import { useNavigate } from 'react-router-dom'; 
 
 function Home() {
