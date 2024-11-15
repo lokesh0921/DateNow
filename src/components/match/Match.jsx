@@ -73,17 +73,13 @@ function Match() {
   // Loading state if user is not fetched yet
   if (!user) {
     return (
-      <div className="h-screen w-full grid place-content-center mx-0 my-0">
-        <div className="bg-[#ffdad7] p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0  h-[520px] overflow-auto">
-
-        </div>
-      </div>
+      <h1></h1>
     );
   }
 
   return (
-    <div className="h-screen w-full grid place-content-center mx-0 my-0">
-      <div className="bg-[#ffdad7] p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0  h-[520px] max-h-[560px] overflow-auto">
+    <div className="min-h-screen w-full grid place-content-center mx-0 my-11 mb-10">
+      <div className="bg-[#ffdad7] p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0  h-full overflow-auto">
         <div className="flex justify-center">
           <h1 className="text-3xl font-bold">Your Partner</h1>
         </div>

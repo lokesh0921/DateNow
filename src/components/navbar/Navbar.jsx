@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
-    <div className="bg-black w-full h-[60px] left-0 flex items-center px-4 right-0 top-0 text-base  md:text-xl">
+    <div className="bg-black w-full h-[60px] left-0 flex items-center px-4 right-0 top-0 text-base  md:text-xl sticky">
       <ul className="flex items-center text-white space-x-10 ml-6 w-full">
         <li className="relative group">
           <NavLink

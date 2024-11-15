@@ -196,8 +196,8 @@ function Chat() {
   }, [history]);
 
   return (
-    <div className="h-screen w-full grid place-content-center mx-0 my-0">
-      <div className="bg-[#ffdad7] p-5 md:p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 max-h-[615px] h-[450px] md:h-[800px] overflow-auto flex flex-col justify-between md:w-[1200px]">
+    <div className="min-h-screen w-full grid place-content-center mx-0 my-0 mb-16">
+      <div className="bg-[#ffdad7] p-5 md:p-11 md:pt-12 pt-12 rounded-xl shadow-2xl my-7 mx-5 md:mx-0 h-full overflow-auto flex flex-col justify-between md:w-[1200px]">
         {ready ? (
           <>
             {/* Chat Message Display Area */}
