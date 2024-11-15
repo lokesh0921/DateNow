@@ -2,6 +2,8 @@
 
 Datenow is a Vite-based web application designed to help users find a partner. By entering their details, users can receive a match and engage in conversation. The unique aspect of Datenow is that the chatting feature is powered by Google Gemini, which acts as the user's partner using the Gemini API.
 
+## Visit the Live Website: [DateNow](https://datenow.vercel.app/)
+
 ## Features
 
 - **User Matching**: Users can enter their details to find a compatible partner.
