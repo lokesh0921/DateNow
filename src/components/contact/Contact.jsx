@@ -213,7 +213,7 @@ export default function Contact() {
                   Thank you for your message! We will get back to you soon.
                 </h2>
                 <h3 className="text-center text-base text-red-500  font-bold">
-                  A Confermation Email has been Sent To You!
+                  A Confirmation Email has been Sent To You!
                 </h3>
               </div>
             </div>
