@@ -69,7 +69,7 @@ function Navbar() {
           </div>
         </div>
       ) : (
-        <div className="bg-black w-full max-h-[400px]  md:h-[60px] left-0 flex flex-col items-center px-4 text-base text-white ">
+        <div className="bg-black w-full max-h-[400px]  md:h-[60px] left-0 flex flex-col items-center px-4 text-base text-white sticky">
           <div className="text-xl mx-auto my-4">
             <span className="text-white font-bold space-x-2">Date</span>
             <span className="mx-[2px] text-red-500 font-bold">Now</span>
