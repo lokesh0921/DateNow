@@ -10,11 +10,6 @@ function Details() {
   const pressed = (e) => {
     e.preventDefault(); // Prevent the form from refreshing the page
 
-    if (gender === "Other") {
-      alert('Fuck You Bitch this site is not for you...');
-      window.location.href = 'https://youtu.be/j_nJPCgxYS4?si=H0SU1sJ4qozYignB';
-      return;
-    }
 
     if(!name){
       alert('Please Provide Your Name');

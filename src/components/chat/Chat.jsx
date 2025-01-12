@@ -1,235 +1,264 @@
-import { useState, useEffect, useRef } from "react";
+'use client'
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import GIF from "../../assets/chatgiphy.gif"
 
 function Chat() {
   const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-  const [input, setInput] = useState(""); // User input
+  const [input, setInput] = useState("");
   const [ready, setReady] = useState(false);
   const [answer, setAnswer] = useState("");
-  const [history, setHistory] = useState([]); // History of messages
-  const chatEndRef = useRef(null); // Create a ref for the chat area
-  const historyRef = useRef([]); // Use ref for history
+  const [history, setHistory] = useState([]);
+  const chatEndRef = useRef(null);
+  const historyRef = useRef([]);
+  const [quickoption, setQuickoption] = useState(true);
+  const [chatbotheader, setChatbotheader] = useState(true);
+  const [count, setCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [retryCount, setRetryCount] = useState(0);
+  const MAX_RETRIES = 3;
+  const RETRY_DELAY = 3000;
 
-  // Helper function to filter the bot's response
-  const filterBotResponse = (responseText) => {
-    const index = responseText.indexOf(":");
-    return index !== -1
-      ? responseText.substring(index + 1).trim()
-      : responseText;
-  };
   const namevalue = localStorage.getItem('mname');
   const agevalue = localStorage.getItem('mage');
   const gendervalue = localStorage.getItem('mgender');
   const dobvalue = localStorage.getItem("mdob");
+  
+const SYSTEM_PROMPTS = [
+  `You are ${namevalue}, a ${agevalue}-year-old ${gendervalue}, and you are here to engage in friendly conversations. Speak politely, as if you're talking to a friend.`,
+  `Engage in natural conversations as ${namevalue}, offering friendly, supportive, and respectful responses. Keep things lighthearted and healthy, just like a good friend would.`,
+  `Speak casually and politely, just like ${namevalue} would. Ask about interests, hobbies, and provide friendly advice without being too formal.`,
+  `Provide helpful advice on relationships and making connections, just as a supportive friend would. Keep the tone respectful, positive, and encouraging.`,
+  `Use fun and friendly language while engaging others. Be polite, healthy in your responses, and make everyone feel comfortable, just like ${namevalue} would.`,
+  `Be a good listener and engage in respectful, fun, and warm conversations. Offer advice and support in a friendly way that makes others feel heard and understood.`,
+  `Focus on building a healthy, friendly relationship with others. Encourage open, kind conversations and make everyone feel welcome and appreciated, just as ${namevalue} would.`
+];
+  
+  
 
-  // console.log(namevalue);
-  // console.log(location);
-  // console.log(dobvalue);
-  // console.log(gendervalue);
+  const cleanResponse = (responseText) => {
+    if (!responseText) return "I apologize, but I couldn't process that response. Could you try again?";
+    let cleaned = responseText.replace(/^[\*:]+/, '').trim();
+    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+  };
 
-  useEffect(() => {
-    setAnswer("Please wait, we are connecting with you...");
+  const generateInitialGreeting = () => {
+    const greetings = [
+      `Hey there! 💖 I'm ${namevalue}, a ${agevalue}-year-old ${gendervalue}, and I'm here to chat and help you explore connections! How can I assist you today?`,
+      `Hi! 💌 Welcome to my world! I'm ${namevalue}, your friendly and supportive companion. Let's chat about anything you like, whether it's dating or just some friendly conversation!`,
+      `Hello! 💑 I'm ${namevalue}, and I'm here to explore connections with you or just have a fun, lighthearted chat. What can I do for you today?`
+    ];
+    return greetings[Math.floor(Math.random() * greetings.length)];
+  };
 
-    const p1 = `You are ${namevalue}, ${agevalue} years old, gender ${gendervalue}, 5'2" tall, unmarried date of birth is ${dobvalue} , and have never been in a relationship. You love spending time with your family, enjoy reading novels, and playing badminton. You don't use social media except WhatsApp. This is your first conversation with a person from whom you have to pretend of  dating. Engage in the conversation naturally as if it's your first date. If he brings up your name, respond humorously in 20 words.`; // Persona 1
-    // console.log(p1);
-    // const p2 = ``; // Persona 2
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    const p3 = `Avoid using the word "bot" or mentioning anything like "bot:" in your responses. Strictly adhere to this guideline.  If someone asks if you're an AI, respond with, "Why would you ask that? Would you really think I'm AI? I didn’t expect that from you!" Never mention "chatbot" or "AI" in your response. talk like user that he wants to make you frends and you also become user frends`; // Persona 3
-
-
-    async function generateInitial() {
-      try {
-        const response = await axios({
-          url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: {
-            contents: [{ role: "user", parts: [{ text: p1 }] }],
-          },
-        });
-        console.log(response);
-        const botResponse = filterBotResponse(
-          response.data.candidates[0].content.parts[0].text
-        );
-        historyRef.current.push(
-          { role: "user", text: p1 },
-          { role: "bot", text: botResponse }
-        );
-
-        // Proceed to the next generation
-        await generateInitial3();
-      } catch (error) {
-        console.error("Error during initial message generation:", error);
-      }
-    }
-    
-    // async function generateInitial2() {
-    //   const prompt = `${historyRef.current
-    //     .map((entry) => `${entry.role}: ${entry.text}`)
-    //     .join("\n")}\nUser: ${p2}`;
-    //   try {
-    //     const response = await axios({
-    //       url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
-    //       method: "post",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       data: {
-    //         contents: [{ role: "user", parts: [{ text: prompt }] }],
-    //       },
-    //     });
-
-    //     console.log(response);
-    //     const botResponse = filterBotResponse(
-    //       response.data.candidates[0].content.parts[0].text
-    //     );
-    //     historyRef.current.push(
-    //       { role: "user", text: p2 },
-    //       { role: "bot", text: botResponse }
-    //     );
-
-    //     // Proceed to the next generation
-    //     await generateInitial3();
-    //   } catch (error) {
-    //     console.error("Error during initial message generation:", error);
-    //   }
-    // }
-
-    async function generateInitial3() {
-      const prompt = `${historyRef.current
-        .map((entry) => `${entry.role}: ${entry.text}`)
-        .join("\n")}\nUser: ${p3}`;
-      try {
-        const response = await axios({
-          url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: {
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-          },
-        });
-
-        console.log(response);
-        const botResponse = filterBotResponse(
-          response.data.candidates[0].content.parts[0].text
-        );
-        historyRef.current.push(
-          { role: "user", text: p3 },
-          { role: "bot", text: botResponse }
-        );
-
-        // Update history state and set the ready state
-        setHistory([...historyRef.current]);
-        setInput(""); // Reset the user input area
-        setAnswer(
-          "Now you can start the conversation. All the best from our side :)"
-        );
-        setReady(true); // Set ready state to true
-      } catch (error) {
-        console.error("Error during initial message generation:", error);
-      }
-    }
-
-    generateInitial();
-  }, []);
-
-  // Function to generate the conversation
-  async function handleSendMessage() {
-    if (!ready) {
-      alert("Wait while we are getting ready for you...");
+  const initializeChat = async () => {
+    if (!API_KEY) {
+      setAnswer("API key is missing. Please check your environment variables.");
+      setIsLoading(false);
       return;
     }
-    if (!input.trim()) {
-      alert("Please enter a message before sending."); // Notify the user
-      return; // Exit early
-    }
 
-    setAnswer("");
+    setIsLoading(true);
+    setAnswer("Initializing DateNow AI... This might take a moment.");
 
-    // Combine persona with user input and history
-    const prompt = `${history
-      .map((entry) => `${entry.role}: ${entry.text}`)
-      .join("\n")}\nUser: ${input}`;
+    const p1 = SYSTEM_PROMPTS.join(" ") + " Prepare to interact naturally with the user.";
+    const p3 = "Acknowledge your role and be ready for a friendly, helpful conversation.";
 
     try {
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
         method: "post",
-        headers: {
-          "Content-Type": "application/json",
+        headers: { "Content-Type": "application/json" },
+        data: {
+          contents: [{ role: "user", parts: [{ text: p1 }] }],
         },
+        timeout: 10000 // 10 second timeout
+      });
+
+      if (!response.data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+        throw new Error("Invalid response format from API");
+      }
+
+      const botResponse = cleanResponse(
+        response.data.candidates[0].content.parts[0].text
+      );
+      
+      historyRef.current = [
+        { role: "user", text: p1 },
+        { role: "bot", text: botResponse }
+      ];
+
+      // Second initialization step
+      const prompt = `${historyRef.current
+        .map((entry) => `${entry.role}: ${entry.text}`)
+        .join("\n")}\nUser: ${p3}`;
+
+      const response2 = await axios({
+        url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
+        method: "post",
+        headers: { "Content-Type": "application/json" },
         data: {
           contents: [{ role: "user", parts: [{ text: prompt }] }],
         },
+        timeout: 10000
       });
 
-      const botResponse = filterBotResponse(
-        response.data.candidates[0].content.parts[0].text
-      );
-      setAnswer("");
-      setHistory((prevHistory) => [
-        ...prevHistory,
-        { role: "user", text: input },
-        { role: "bot", text: botResponse },
-      ]);
-      setInput(""); // Reset the user input area
+      if (!response2.data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+        throw new Error("Invalid response format from API");
+      }
 
-      // Scroll to the bottom of the chat
-      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    } catch (error) {
-      setAnswer(
-        "I don’t want to talk on this topic; it makes me uncomfortable."
+      const greeting = generateInitialGreeting();
+      historyRef.current.push(
+        { role: "user", text: p3 },
+        { role: "bot", text: greeting }
       );
-      alert('Thier is Something Wrong happend! or you have used vernuability words avoid using sexual words')
+
+      setHistory([...historyRef.current]);
+      setInput("");
+      setAnswer("Ready to chat!");
+      setReady(true);
+      setIsLoading(false);
+      setRetryCount(0);
+
+    } catch (error) {
+      console.error("Initialization error:", error);
+      
+      if (error.response?.status === 401) {
+        setAnswer("Authentication failed. Please check your API key.");
+        setIsLoading(false);
+        return;
+      }
+      
+      if (retryCount < MAX_RETRIES) {
+        setAnswer(`Initialization attempt ${retryCount + 1} failed. Retrying in ${RETRY_DELAY/1000} seconds...`);
+        await delay(RETRY_DELAY);
+        setRetryCount(prev => prev + 1);
+        initializeChat();
+      } else {
+        setAnswer("Unable to initialize chat after multiple attempts. Please refresh the page to try again.");
+        setIsLoading(false);
+      }
     }
+  };
+
+  useEffect(() => {
+    initializeChat();
+  }, []);
+
+  async function handleSendMessage(inputMessage = null) {
+    const messageToSend = (inputMessage || input || "").toString().trim();
+    
+    if (!ready) {
+      setAnswer("Please wait while the AI is preparing...");
+      return;
+    }
+
+    if (!messageToSend) {
+      setAnswer("Please enter a message before sending.");
+      return;
+    }
+
+    setCount(prev => prev + 1);
+    setQuickoption(false);
+    setAnswer("");
+    
+    if (count === 0) {
+      setChatbotheader(false);
+    }
+
+    let retryAttempt = 0;
+    const maxMessageRetries = 2;
+
+    async function attemptSendMessage() {
+      try {
+        const conversationHistory = history.slice(-10); // Keep last 10 messages for context
+        const prompt = `Conversation Context:
+        ${conversationHistory.map((entry) => `${entry.role}: ${entry.text}`).join("\n")}
+        User: ${messageToSend}
+        
+        Respond in a friendly, natural manner. Use emojis for a fun and engaging tone.`;
+
+        const response = await axios({
+          url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          data: {
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+          },
+          timeout: 10000
+        });
+
+        if (!response.data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+          throw new Error("Invalid response format from API");
+        }
+
+        const botResponse = cleanResponse(
+          response.data.candidates[0].content.parts[0].text
+        );
+
+        setHistory(prev => [
+          ...prev,
+          { role: "user", text: messageToSend },
+          { role: "bot", text: botResponse },
+        ]);
+
+        setInput("");
+        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+
+      } catch (error) {
+        console.error("Message error:", error);
+        if (retryAttempt < maxMessageRetries) {
+          retryAttempt++;
+          setAnswer(`Message failed to send. Retrying (${retryAttempt}/${maxMessageRetries})...`);
+          await delay(1500);
+          return attemptSendMessage();
+        } else {
+          setAnswer("Failed to send message. Please try again.");
+          setInput(messageToSend); // Preserve user's message
+        }
+      }
+    }
+
+    await attemptSendMessage();
   }
 
-  // Scroll to bottom when history changes
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [history]);
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
 
   return (
     <div className="min-h-screen w-full grid place-content-center mx-0 my-0 mb-16">
-      <div className="bg-[#ffdad7] p-5 md:p-11 md:pt-12 pt-12 rounded-xl shadow-2xl my-7 mx-5 md:mx-0 h-full overflow-auto flex flex-col justify-between md:w-[1200px]">
+      <div className="bg-[#ffdad7] h-[70vh] p-5 md:p-11 md:pt-12 pt-12 rounded-xl shadow-2xl my-7 mx-5 md:mx-0 overflow-auto flex flex-col justify-between md:w-[1200px]">
         {ready ? (
           <>
-            {/* Chat Message Display Area */}
             <div className="flex-1 overflow-y-auto mb-4">
               <div className="space-y-3">
-                {/* Only display messages from user and bot that are not initial messages */}
                 {history.length > 2 &&
-                  history.slice(4).map(
-                    (message, index) => (
+                  history.slice(4).map((message, index) => (
+                    <div
+                      key={index}
+                      className={`${message.role === "user" ? "text-right" : "text-left"}`}
+                    >
                       <div
-                        key={index}
-                        className={`${
-                          message.role === "user" ? "text-right" : "text-left"
-                        }`}
+                        className={`inline-block p-3 mr-4 rounded-lg ${
+                          message.role === "user"
+                            ? "bg-[#F8A199] text-black font-semibold"
+                            : "bg-[#e71f1f] text-white font-semibold"
+                        } break-words max-w-[80%]`}
                       >
-                        <div
-                          className={`inline-block p-3 mr-4 rounded-lg ${
-                            message.role === "user"
-                              ? "bg-[#F8A199] text-black font-semibold"
-                              : "bg-[#e71f1f] text-white font-semibold"
-                          }`}
-                        >
-                          {message.text}
-                        </div>
+                        {message.text}
                       </div>
-                    )
-                  )}
-                <div ref={chatEndRef} /> {/* Scroll target */}
+                    </div>
+                  ))}
+                <div ref={chatEndRef} />
               </div>
             </div>
 
-            {/* Chat Input Area */}
             <div className="flex items-center">
               <input
                 type="text"
@@ -237,11 +266,15 @@ function Chat() {
                 placeholder="Type your message..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                onKeyPress={handleKeyPress}
+                disabled={!ready}
               />
               <button
-                className="bg-[#e71f1f] p-3 ml-3 rounded-xl text-white font-semibold hover:bg-[#F8A199] hover:text-black"
-                onClick={handleSendMessage}
+                className={`p-3 ml-3 rounded-xl text-white font-semibold ${
+                  ready ? "bg-[#e71f1f] hover:bg-[#F8A199] hover:text-black" : "bg-gray-400"
+                }`}
+                onClick={() => handleSendMessage()}
+                disabled={!ready}
               >
                 Send
               </button>
@@ -250,13 +283,13 @@ function Chat() {
         ) : (
           <div className="flex flex-col items-center">
             <img
-              src={GIF} // Replace with your GIF link
+              src={GIF}
               alt="Loading"
-              className="mb-3" // Adjust margin for spacing
+              className="mb-3"
             />
+            <p className="text-center text-lg font-semibold text-gray-700">{answer}</p>
           </div>
         )}
-        <p className="text-center text-lg font-bold mt-1">{answer}</p>
       </div>
     </div>
   );
