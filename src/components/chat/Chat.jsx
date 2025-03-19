@@ -68,7 +68,7 @@ const SYSTEM_PROMPTS = [
 
     try {
       const response = await axios({
-        url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
         method: "post",
         headers: { "Content-Type": "application/json" },
         data: {
@@ -96,7 +96,7 @@ const SYSTEM_PROMPTS = [
         .join("\n")}\nUser: ${p3}`;
 
       const response2 = await axios({
-        url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
         method: "post",
         headers: { "Content-Type": "application/json" },
         data: {
@@ -181,7 +181,7 @@ const SYSTEM_PROMPTS = [
         Respond in a friendly, natural manner. Use emojis for a fun and engaging tone.`;
 
         const response = await axios({
-          url: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
+          url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
           method: "post",
           headers: { "Content-Type": "application/json" },
           data: {
