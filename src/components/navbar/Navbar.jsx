@@ -13,13 +13,11 @@ function Navbar() {
     // Ensure the initial state is correct (scale 0, off-screen)
     const tl=gsap.timeline();
     gsap.set(".mbmenu", {
-      scale: 1,
-      top: -300,
+      top: -500,
     });
   
     // Animate the menu to its final position
     tl.to(".mbmenu", {
-      scale: 1,
       top: 0,
       duration: 0.7,
     });
@@ -30,7 +28,7 @@ function Navbar() {
   const rollback = () => {
     gsap.to(".mbmenu", {
       scale: 1,
-      top:-300,
+      top:-500,
       duration: 0.7,
     });
   };
@@ -103,7 +101,7 @@ function Navbar() {
           </div>
         </div>
       {/* ) : ( */}
-        <div className="mbmenu  md:hidden top-[-300px] absolute bg-black w-full max-h-[400px]  md:h-[60px] left-0 flex flex-col items-center px-4 text-base text-white">
+        <div className="mbmenu md:hidden top-[-500px] absolute bg-black w-full max-h-[400px]  md:h-[60px] left-0 flex flex-col items-center px-4 text-base text-white">
           <div className="text-xl mx-auto my-4">
             <span className="text-white font-bold space-x-2">Date</span>
             <span className="mx-[2px] text-red-500 font-bold">Now</span>
