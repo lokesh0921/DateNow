@@ -184,12 +184,12 @@ export default function Contact() {
                   <label for="tel" className="hidden">
                     Number
                   </label>
-                  <input
-                    type="tel"
+                  <textarea
+                    type="text"
                     name="number"
                     id="tel"
-                    placeholder="Telephone Number"
-                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-white border border-black text-black font-semibold focus:border-orange-500 focus:outline-none"
+                    placeholder="Enter Your Message"
+                    className="w-100 mt-2 py-3 px-3 h-20 rounded-lg bg-white border border-black text-black font-semibold focus:border-orange-500 focus:outline-none"
                   />
                 </div>
 

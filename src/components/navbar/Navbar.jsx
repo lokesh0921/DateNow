@@ -84,6 +84,18 @@ function Navbar() {
                 About Us
               </NavLink>
             </li>
+            <li className="relative group">
+              <NavLink
+                to="/talk"
+                className={({ isActive }) =>
+                  `${
+                    isActive ? "border-white" : "border-transparent"
+                  } border-transparent border-b-2 p-1 transition-all duration-300 ease-in`
+                }
+              >
+                Talk
+              </NavLink>
+            </li>
           </ul>
           <div className="hidden md:block text-2xl">
             <span className="text-white font-bold space-x-2">Date</span>
@@ -135,6 +147,17 @@ function Navbar() {
             }
           >
             About Us
+          </NavLink>
+          <NavLink
+            to="/talk"
+            onClick={rollback}
+            className={({ isActive }) =>
+              `${
+                isActive ? "border-white" : "border-transparent"
+              } border-transparent border-b-2 p-1 transition-all duration-300 ease-in my-3 mb-7`
+            }
+          >
+            Talk
           </NavLink>
         </div>
       {/* )} */}
