@@ -232,8 +232,8 @@ const SYSTEM_PROMPTS = [
   };
 
   return (
-    <div className="min-h-screen w-full grid place-content-center mx-0 my-0 mb-16">
-      <div className="bg-[#ffdad7] h-[70vh] p-5 md:p-11 md:pt-12 pt-12 rounded-xl shadow-2xl my-7 mx-5 md:mx-0 overflow-auto flex flex-col justify-between md:w-[1200px]">
+    <div className="min w-full flex items-center justify-center min-h-[60vh] mx-0 my-0">
+      <div className="bg-[#ffdad7] h-[70vh] p-5 md:p-11 md:pt-12 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 overflow-auto flex flex-col justify-between md:w-[1200px] my-16">
         {ready ? (
           <>
             <div className="flex-1 overflow-y-auto mb-4">

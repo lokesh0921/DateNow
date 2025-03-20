@@ -25,9 +25,9 @@ function Talk() {
   ];
 
   return (
-    <div className="min-h-screen w-full grid place-content-center mx-0 my-0 mb-16">
-      <div className="bg-[#ffdad7] h-[80vh] p-5 md:p-11 md:pt-12 pt-12 rounded-xl shadow-2xl my-7 mx-5 md:mx-0 overflow-auto flex flex-col justify-between md:w-[1200px]">
-        <div className="flex-1 overflow-y-auto mb-4">
+    <div className=" w-full flex items-center justify-center mx-0 my-0">
+      <div className="bg-[#ffdad7] h-[75vh] p-5 md:p-11 md:pt-12 my-10 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 overflow-auto flex flex-col justify-between md:w-[1200px]">
+        {/* <div className="flex-1 overflow-y-auto mb-4">
           <div className="space-y-3">
             {messages.map((message, index) => (
               <div key={index} className={`${message.role === "user" ? "text-right" : "text-left"}`}>
@@ -62,7 +62,7 @@ function Talk() {
           >
             Send
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -36,7 +36,7 @@ function Navbar() {
   return (
     <>
       {/* {view ? ( */}
-        <div className=" bg-black w-full h-[50px] max-h-[100px] md:h-[60px] left-0 flex items-center px-4 right-0 top-0 text-base md:text-xl sticky">
+        <div className=" bg-black w-full h-[50px] max-h-[100px] md:h-[60px] left-0 flex items-center px-4 right-0 top-0 text-base md:text-xl fi">
           <div className="md:hidden text-xl mx-auto">
             <span className="text-white font-bold space-x-2">Date</span>
             <span className="mx-[2px] text-red-500 font-bold">Now</span>

@@ -61,12 +61,12 @@ export default function Contact() {
  
 
   return (
-    <div className="flex items-top justify-center min-h-[700px] md:min-h-screen bg-[#F8A199] sm:items-center sm:pt-0 md:mx-0 mx-5 mb-8">
+    <div className="flex items-top justify-center bg-[#F8A199] sm:items-center sm:pt-0 md:mx-0 mx-5 mb-8">
       <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div className="mt-8 overflow-hidden">
           {/* <div className=" grid grid-cols-1 md:grid-cols-2 bg-[#ffdad7] p-8 rounded-lg"> */}
           {!check ? (
-            <div className=" grid grid-cols-1 md:grid-cols-2 bg-[#ffdad7] p-8 rounded-lg">
+            <div className=" grid grid-cols-1 md:grid-cols-2 bg-[#ffdad7] p-8 rounded-lg md:my-32">
               <div className="left p-0 md:p-6 mr-2  sm:rounded-lg md:shadow-xl">
                 <h1 className="text-3xl sm:text-4xl text-black font-extrabold tracking-tight">
                   Get in touch:

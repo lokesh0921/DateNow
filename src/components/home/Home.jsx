@@ -17,8 +17,8 @@ function Home() {
     };
 
     return (
-        <div className='h-screen  mt-0 w-full grid place-content-center mx-0 my-0'> 
-        <div className='bg-[#ffdad7] my-0 md:pt-36 pt-12  rounded-xl shadow-2xl flex px-10 mx-5 overflow-auto md:my-0 md:mx-0 md:flex max-h-[800px]' >
+        <div className='mt-0 w-full grid place-content-center mx-0 my-0'> 
+        <div className='bg-[#ffdad7] my-20 md:pt-36 pt-12  rounded-xl shadow-2xl flex px-10 mx-5 md:my-32 md:mx-0 md:flex max-h-[800px]' >
             {/* Left side (Text) */}
             <div className='text-center md:text-left'>
                 <h1 className='text-3xl font-mono font-bold text-black text-center md:text-left' >
