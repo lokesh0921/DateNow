@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 const socket = io(import.meta.env.VITE_BACKEND_URL, {
   transports: ["websocket"], 
@@ -9,6 +9,11 @@ function Talk() {
   const [input, setInput] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
   
   useEffect(() => {
     socket.on("m", (msg) => {
@@ -19,10 +24,27 @@ function Talk() {
       socket.off("m");
     };
   }, []);
-  const sendMessage = () => {
+  const sendMessage = async () => {
     setMessages((messages) => [...messages, { role: "user", text: message }]);
     if (message.trim() !== "") {
       socket.emit("user-message", message);
+
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/talkmsg`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ role: "user", text: message }),
+        });
+    
+        if (!response.ok) {
+          throw new Error("Failed to save message");
+        }
+      } catch (error) {
+        console.error("Error saving message:", error);
+      }
+
       setMessage("");
     }
     else{
@@ -67,6 +89,7 @@ function Talk() {
                 </div>
               </div>
             ))}
+            <div ref={chatEndRef} />
           </div>
         </div>
 
