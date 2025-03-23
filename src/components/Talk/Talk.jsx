@@ -19,7 +19,6 @@ function Talk() {
       socket.off("m");
     };
   }, []);
-  // Sample messages to showcase UI
   const sendMessage = () => {
     setMessages((messages) => [...messages, { role: "user", text: message }]);
     if (message.trim() !== "") {
