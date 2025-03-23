@@ -91,7 +91,7 @@ function Navbar() {
                   } border-transparent border-b-2 p-1 transition-all duration-300 ease-in`
                 }
               >
-                Talk
+                General Talk
               </NavLink>
             </li>
           </ul>
@@ -155,7 +155,7 @@ function Navbar() {
               } border-transparent border-b-2 p-1 transition-all duration-300 ease-in my-3 mb-7`
             }
           >
-            Talk
+            GenetalTalk
           </NavLink>
         </div>
       {/* )} */}

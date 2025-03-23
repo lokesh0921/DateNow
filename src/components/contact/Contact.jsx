@@ -35,23 +35,23 @@ export default function Contact() {
     
     tl.from(".right", {
       x: 450,
-      duration: 1.5,
+      duration: 1,
       delay: 0,
       scale:0,
     });
     tl.from(".collegen",{
       x:200,
-      duration:1,
+      duration:0.7,
       scale:0,
     })
     tl.from(".phn",{
       x:200,
-      duration:1,
+      duration:0.7,
       scale:0,
     })
     tl.from(".emailn",{
       x:200,
-      duration:1,
+      duration:0.7,
       scale:0,
     })
 

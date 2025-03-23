@@ -16,13 +16,17 @@ function Chat() {
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
-  const MAX_RETRIES = 3;
+  const MAX_RETRIES = 5;
   const RETRY_DELAY = 3000;
 
   const namevalue = localStorage.getItem('mname');
   const agevalue = localStorage.getItem('mage');
   const gendervalue = localStorage.getItem('mgender');
   const dobvalue = localStorage.getItem("mdob");
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [history]);
   
 const SYSTEM_PROMPTS = [
   `You are ${namevalue}, a ${agevalue}-year-old ${gendervalue}, and you are here to engage in friendly conversations. Speak politely, as if you're talking to a friend.`,
