@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../auth";
 import { Mail, Lock, User, ArrowRight } from "lucide-react";
-
-
 const provider = new GoogleAuthProvider();
+
+
 
 function Login() {
   const navigate = useNavigate();
@@ -57,6 +57,10 @@ function Login() {
     } catch (error) {
       setErrorMessage(error.message);
     }
+  };
+
+  const toggleForm = () => {
+    setIsLogin(!isLogin);
   };
 
   return (
@@ -133,6 +137,18 @@ function Login() {
                 <ArrowRight size={18} />
               </button>
             </form>
+            <div className="text-center mt-4">
+              <p className="text-gray-600">
+                {isLogin ? "Don't have an account?" : "Already have an account?"}
+                <button
+                  onClick={toggleForm}
+                  className="text-pink-700 font-medium ml-1 hover:text-pink-900"
+                >
+                  {isLogin ? "Sign Up" : "Sign In"}
+                </button>
+              </p>
+            </div>
+            
           </div>
         </div>
       </div>
