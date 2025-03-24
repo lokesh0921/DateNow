@@ -10,6 +10,7 @@ import Details from './components/details/Details.jsx'
 import Match from './components/match/Match.jsx'
 import Chat from './components/chat/Chat.jsx'
 import Talk from './components/Talk/Talk.jsx'
+import Login from './components/login/Login.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,7 @@ const router=createBrowserRouter(
       <Route path='about' element={<About />} />
       <Route path='contact' element={<Contact />} />
       <Route path='Talk' element={<Talk />} />
+      <Route path='login' element={<Login />} />
     </Route>
   )
 )
