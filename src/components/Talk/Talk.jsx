@@ -147,7 +147,7 @@ function Talk() {
                           <div className="w-10 rounded-full">
                             <img
                               alt="User avatar"
-                              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                              src={user?.photoURL || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"}
                             />
                           </div>
                         </div>
@@ -166,7 +166,7 @@ function Talk() {
                           <div className="w-10 rounded-full">
                             <img
                               alt="Other user avatar"
-                              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                              src={user?.photoURL || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"}
                             />
                           </div>
                         </div>
@@ -234,7 +234,23 @@ function Talk() {
         )}
       </div>
       ):(
-        <div>Loading...</div>
+        <div className="flex flex-col items-center justify-center h-full">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-[#e71f1f] mb-3 md:text-4xl">
+                Want to Join the Conversation?
+              </h2>
+              <p className="text-lg mb-6 max-w-md md:text-xl font-medium">
+                Ready to experience real-time chats and connect with others? To
+                access this feature, please log in to your account first.
+              </p>
+              <button
+                onClick={() => navigate("/login")}
+                className="bg-[#e71f1f] hover:bg-[#F8A199] text-white hover:text-black font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105"
+              >
+                Go to Login Page
+              </button>
+            </div>
+          </div>
       )}
     </div>
   );

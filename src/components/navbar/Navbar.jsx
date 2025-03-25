@@ -14,6 +14,7 @@ function Navbar() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      alert("Logged out successfully");
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -191,7 +192,7 @@ function Navbar() {
         {user ? (
           <button
             onClick={handleLogout}
-            className="flex bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2 px-3 rounded-full transition items-center"
+            className="flex bg-[#ffdad7] hover:bg-[#c3a4a2] text-white text-sm font-medium py-2 px-3 rounded-full transition items-center"
           >
             <LogOut className="h-4 w-4 mr-1" />
             Logout
@@ -199,6 +200,7 @@ function Navbar() {
         ) : (
           <NavLink
             to="/login"
+            onClick={rollback}
             className="flex bg-red-500 hover:bg-[#F8A199] hover:text-black text-white text-sm font-medium py-2 px-3 rounded-full transition items-center"
           >
             <LogIn className="h-4 w-4 mr-1" />
