@@ -1,5 +1,4 @@
 @tailwind base;
-@plugin "daisyui";
 @tailwind components;
 @tailwind utilities;
 

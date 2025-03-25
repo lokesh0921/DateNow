@@ -266,7 +266,7 @@ const SYSTEM_PROMPTS = [
             <div className="flex items-center">
               <input
                 type="text"
-                className="flex-1 p-3 border border-gray-400 focus:outline-none rounded-xl min-w-[100px]"
+                className="flex-1 p-3 border bg-white text-black border-gray-400 focus:outline-none rounded-xl min-w-[100px]"
                 placeholder="Type your message..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}

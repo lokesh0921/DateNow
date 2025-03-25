@@ -98,7 +98,7 @@ function Talk() {
                       message.role === "user" ? "text-right" : "text-left"
                     }`}
                   >
-                    <div
+                    {/* <div
                       className={`inline-block p-3 mr-4 rounded-lg ${
                         message.role === "user"
                           ? "bg-[#F8A199] text-black font-semibold"
@@ -106,7 +106,43 @@ function Talk() {
                       } break-words max-w-[80%]`}
                     >
                       {message.text}
-                    </div>
+                    </div> */}
+                    {message.role === "user" ? (
+                      <div className="chat chat-end ">
+                        <div className="chat-image avatar">
+                          <div className="w-10 rounded-full">
+                            <img
+                              alt="Tailwind CSS chat bubble component"
+                              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                            />
+                          </div>
+                        </div>
+                        <div className="chat-header text-black">
+                          Lorem Name
+                          <time className="text-xs opacity-50 text-black">12:46</time>
+                        </div>
+                        <div className="chat-bubble bg-[#F8A199] text-black">{message.text}</div>
+                        
+                      </div>
+                    ) : (
+                      <div className="chat chat-start">
+                        <div className="chat-image avatar">
+                          <div className="w-10 rounded-full">
+                            <img
+                              alt="Tailwind CSS chat bubble component"
+                              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                            />
+                          </div>
+                        </div>
+                        <div className="chat-header text-black">
+                          Lorem Name
+                          <time className="text-xs opacity-50 text-black">12:45</time>
+                        </div>
+                        <div className="chat-bubble bg-[#e71f1f]">
+                          {message.text}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
                 <div ref={chatEndRef} />
@@ -115,7 +151,7 @@ function Talk() {
             <div className="flex items-center">
               <input
                 type="text"
-                className="flex-1 p-3 border border-gray-400 focus:outline-none rounded-xl min-w-[100px]"
+                className="flex-1 p-3 border bg-white text-black border-gray-400 focus:outline-none rounded-xl min-w-[100px]"
                 placeholder="Type your message..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
