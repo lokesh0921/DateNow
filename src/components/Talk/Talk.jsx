@@ -2,23 +2,80 @@ import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { formatDistanceToNow } from 'date-fns'; // Optional: for relative time formatting
+
 const socket = io(import.meta.env.VITE_BACKEND_URL, {
   transports: ["websocket"],
+  auth: {
+    userid: null, // Will be set dynamically
+    displayName: null // Will be set dynamically
+  }
 });
 
 function Talk() {
   const [ready, setReady] = useState(true);
-  const [input, setInput] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [islogin, setIslogin] = useState(false);
   const chatEndRef = useRef(null);
   const navigate = useNavigate();
+  const [isLoaded, setIsLoaded] = useState(false); 
 
   const { user } = useAuth();
+
+  // Update socket auth when user changes
   useEffect(() => {
     if (user) {
+      socket.auth = {
+        userid: user.uid,
+        displayName: user.displayName || 'Anonymous'
+      };
+      socket.connect();
+    }
+  }, [user]);
+
+  // Fetch previous messages when user logs in
+  useEffect(() => {
+    const fetchPreviousMessages = async () => {
+      if (user) {
+        try {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/talkmsg`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch previous messages');
+          }
+          const previousMessages = await response.json();
+          setMessages(previousMessages);
+        } catch (error) {
+          console.error('Error fetching previous messages:', error);
+        }
+      }
+    };
+
+    fetchPreviousMessages();
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setIsLoaded(true);
       setIslogin(true);
+      
+      // Listen for messages from other users
+      socket.on("m", (msg) => {
+        // Check if the message is not from the current user
+        if (msg.userid !== user.uid) {
+          setMessages((prevMessages) => [...prevMessages, { 
+            role: "Server", 
+            text: msg.text, 
+            userid: msg.userid,
+            displayName: msg.displayName,
+            createdAt: new Date()
+          }]);
+        }
+      });
+
+      return () => {
+        socket.off("m");
+      };
     }
   }, [user, navigate]);
 
@@ -26,19 +83,23 @@ function Talk() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  useEffect(() => {
-    socket.on("m", (msg) => {
-      setMessages((messages) => [...messages, { role: "Server", text: msg }]);
-    });
-
-    return () => {
-      socket.off("m");
-    };
-  }, []);
   const sendMessage = async () => {
-    setMessages((messages) => [...messages, { role: "user", text: message }]);
     if (message.trim() !== "") {
-      socket.emit("user-message", message);
+      const newMessage = { 
+        role: "user", 
+        text: message, 
+        userid: user.uid,
+        displayName: user.displayName || 'Anonymous',
+        createdAt: new Date()
+      };
+
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+      // Emit the message to the server
+      socket.emit("user-message", {
+        ...newMessage,
+        userid: user.uid
+      });
 
       try {
         const response = await fetch(
@@ -48,7 +109,7 @@ function Talk() {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ role: "user", text: message }),
+            body: JSON.stringify(newMessage),
           }
         );
 
@@ -65,28 +126,10 @@ function Talk() {
     }
   };
 
-  // const messages = [
-  //   { role: "user", text: "Hey there! How's it going?" },
-  //   { role: "Server", text: "Hello! I'm here to chat. How can I help?" },
-  //   { role: "user", text: "Tell me something interesting!" },
-  //   { role: "user", text: "Tell me something interesting!" },
-  //   { role: "Server", text: "Tell me something interesting!" },
-  //   { role: "user", text: "Tell me something interesting!" },
-  //   { role: "Server", text: "Did you know honey never spoils? Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible!" },
-  //   { role: "Server", text: "Did you know honey never spoils? Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible!" },
-  //   { role: "user", text: "Hey there! How's it going?" },
-  //   { role: "Server", text: "Hello! I'm here to chat. How can I help?" },
-  //   { role: "user", text: "Tell me something interesting!" },
-  //   { role: "user", text: "Tell me something interesting!" },
-  //   { role: "Server", text: "Tell me something interesting!" },
-  //   { role: "user", text: "Tell me something interesting!" },
-  //   { role: "Server", text: "Did you know honey never spoils? Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible!" },
-  //   { role: "Server", text: "Did you know honey never spoils? Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible!" },
-  // ];
-
   return (
-    <div className=" w-full flex items-center justify-center mx-0 my-0">
-      <div className="bg-[#ffdad7] h-[75vh] p-5 md:p-11 md:pt-12 my-10 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 overflow-auto flex flex-col justify-between md:w-[1200px]">
+    <div className="w-full flex items-center justify-center mx-0 my-0">
+      {isLoaded ? ( 
+        <div className="bg-[#ffdad7] h-[75vh] p-5 md:p-11 md:pt-12 my-10 pt-12 rounded-xl shadow-2xl mx-5 md:mx-0 overflow-auto flex flex-col justify-between md:w-[1200px]">
         {islogin ? (
           <>
             <div className="flex-1 overflow-y-auto mb-4">
@@ -95,52 +138,48 @@ function Talk() {
                   <div
                     key={index}
                     className={`${
-                      message.role === "user" ? "text-right" : "text-left"
+                      message.userid === user.uid ? "text-right" : "text-left"
                     }`}
                   >
-                    {/* <div
-                      className={`inline-block p-3 mr-4 rounded-lg ${
-                        message.role === "user"
-                          ? "bg-[#F8A199] text-black font-semibold"
-                          : "bg-[#e71f1f] text-white font-semibold"
-                      } break-words max-w-[80%]`}
-                    >
-                      {message.text}
-                    </div> */}
-                    {message.role === "user" ? (
-                      <div className="chat chat-end ">
+                    {message.userid === user.uid ? (
+                      <div className="chat chat-end">
                         <div className="chat-image avatar">
                           <div className="w-10 rounded-full">
                             <img
-                              alt="Tailwind CSS chat bubble component"
+                              alt="User avatar"
                               src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                             />
                           </div>
                         </div>
                         <div className="chat-header text-black">
-                          Lorem Name
-                          <time className="text-xs opacity-50 text-black">12:46</time>
+                          {message.displayName}
+                          
                         </div>
                         <div className="chat-bubble bg-[#F8A199] text-black">{message.text}</div>
-                        
+                        <div className="chat-footer text-black"><time className="text-xs opacity-50 text-black ml-2">
+                            {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
+                          </time></div>
                       </div>
                     ) : (
                       <div className="chat chat-start">
                         <div className="chat-image avatar">
                           <div className="w-10 rounded-full">
                             <img
-                              alt="Tailwind CSS chat bubble component"
+                              alt="Other user avatar"
                               src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                             />
                           </div>
                         </div>
                         <div className="chat-header text-black">
-                          Lorem Name
-                          <time className="text-xs opacity-50 text-black">12:45</time>
+                          {message.displayName}
+                          
                         </div>
                         <div className="chat-bubble bg-[#e71f1f]">
                           {message.text}
                         </div>
+                        <div className="chat-footer text-black"><time className="text-xs opacity-50 text-black ml-2">
+                            {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
+                          </time></div>
                       </div>
                     )}
                   </div>
@@ -172,7 +211,7 @@ function Talk() {
               >
                 Send
               </button>
-            </div>{" "}
+            </div>
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full">
@@ -194,6 +233,9 @@ function Talk() {
           </div>
         )}
       </div>
+      ):(
+        <div>Loading...</div>
+      )}
     </div>
   );
 }
