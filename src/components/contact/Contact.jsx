@@ -2,27 +2,33 @@ import React, { useState, useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import GIF from "../../assets/giphy.gif"
-import emailjs from '@emailjs/browser';
 
 export default function Contact() {
   const form = useRef();
+  const [messages, setMessages] = useState([]);
 
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
     setCheck(true);
 
-    emailjs
-      .sendForm('service_bccq7bb', 'template_9llkts9', form.current, {
-        publicKey: 'Gfu8aXmYc3toi7THG',
-      })
-      .then(
-        () => {
-          console.log('SUCCESS!');
-        },
-        (error) => {
-          console.log('FAILED...', error.text);
-        },
-      );
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/sendemail`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: form.current.email.value,
+              displayName: form.current.name.value,
+              text: form.current.msg.value
+            }),
+          }
+        );
+      } catch (error) {
+        console.error("Error saving message:", error);
+      }
     }
 
 
@@ -181,13 +187,13 @@ export default function Contact() {
                 </div>
 
                 <div className="flex flex-col mt-2">
-                  <label for="tel" className="hidden">
+                  <label for="mg" className="hidden">
                     Number
                   </label>
                   <textarea
                     type="text"
-                    name="number"
-                    id="tel"
+                    name="msg"
+                    id="mg"
                     placeholder="Enter Your Message"
                     className="w-100 mt-2 py-3 px-3 h-20 rounded-lg bg-white border border-black text-black font-semibold focus:border-orange-500 focus:outline-none"
                   />
