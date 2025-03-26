@@ -77,6 +77,10 @@ function Talk() {
         socket.off("m");
       };
     }
+    else{
+      setIsLoaded(false);
+      setIslogin(false);
+    }
   }, [user, navigate]);
 
   useEffect(() => {
@@ -219,7 +223,7 @@ function Talk() {
               <h2 className="text-2xl font-bold text-[#e71f1f] mb-3 md:text-4xl">
                 Want to Join the Conversation?
               </h2>
-              <p className="text-lg mb-6 max-w-md md:text-xl font-medium">
+              <p className="text-lg mb-6 max-w-md md:text-xl font-medium text-black">
                 Ready to experience real-time chats and connect with others? To
                 access this feature, please log in to your account first.
               </p>
