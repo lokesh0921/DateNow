@@ -14,6 +14,7 @@ function Navbar() {
     try {
       await signOut(auth);
       alert("Logged out successfully");
+      window.location.href = "/login";
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -82,7 +83,7 @@ function Navbar() {
           <div className="flex items-center justify-between h-16">
             
             {/* Logo */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 cursor-pointer" onClick ={() => window.location.href = "/"}>
               <Heart className="h-7 w-7 text-red-400 animate-pulse" />
               <div className="text-2xl font-bold">
                 <span className="text-white">Date</span>
