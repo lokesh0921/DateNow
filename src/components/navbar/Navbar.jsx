@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import menu from "../../assets/menu.svg";
 import { gsap } from "gsap";
-import { LogIn, LogOut } from "lucide-react";
+import { LogIn, LogOut, Menu, X, Heart } from "lucide-react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useAuth } from "../../context/AuthContext";
 import { auth } from "../../auth";
 
 function Navbar() {
-  const [view, setView] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useAuth();
 
   const handleLogout = async () => {
@@ -20,195 +19,191 @@ function Navbar() {
     }
   };
 
-  const mobileView = () => {
-    // Ensure the initial state is correct (scale 0, off-screen)
+  const toggleMobileMenu = () => {
     const tl = gsap.timeline();
-    gsap.set(".mbmenu", {
-      top: -500,
-    });
-
-    // Animate the menu to its final position
-    tl.to(".mbmenu", {
-      top: 0,
-      duration: 0.7,
-    });
-
-    setView(true); // Set state to show the mobile menu
+    
+    if (!isMenuOpen) {
+      // Open menu
+      gsap.set(".mobile-menu", {
+        opacity: 0,
+        y: -20,
+        display: "flex"
+      });
+      
+      tl.to(".mobile-menu", {
+        opacity: 1,
+        y: 0,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+      
+      setIsMenuOpen(true);
+    } else {
+      // Close menu
+      tl.to(".mobile-menu", {
+        opacity: 0,
+        y: -20,
+        duration: 0.3,
+        ease: "power2.in",
+        onComplete: () => {
+          gsap.set(".mobile-menu", { display: "none" });
+        }
+      });
+      
+      setIsMenuOpen(false);
+    }
   };
 
-  const rollback = () => {
-    gsap.to(".mbmenu", {
-      scale: 1,
-      top: -500,
-      duration: 0.7,
-    });
+  const closeMobileMenu = () => {
+    if (isMenuOpen) {
+      toggleMobileMenu();
+    }
   };
+
+  const navLinkClasses = ({ isActive }) =>
+    `relative px-4 py-2 text-base font-medium transition-all duration-300 ease-in-out hover:text-red-400 hover:after:absolute hover:after:bottom-0 hover:after:left-1/2 hover:after:transform hover:after:-translate-x-1/2 hover:after:w-full hover:after:h-0.5 hover:after:bg-gradient-to-r hover:after:from-red-400 hover:after:to-pink-400 ${
+      isActive 
+        ? "text-red-400" 
+        : "text-white"
+    }`;
+
+  const mobileNavLinkClasses = ({ isActive }) =>
+    `block px-6 py-3 text-base font-medium transition-all duration-300 ease-in-out ${
+      isActive 
+        ? "text-red-400 after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-full after:h-0.5 after:bg-gradient-to-r after:from-red-400 after:to-pink-400" 
+        : "text-white hover:after:absolute hover:after:bottom-0 hover:after:left-1/2 hover:after:transform hover:after:-translate-x-1/2 hover:after:w-full hover:after:h-0.5 hover:after:bg-gradient-to-r hover:after:from-red-400 hover:after:to-pink-400"
+    }`;
 
   return (
     <>
-      {/* {view ? ( */}
-      <div className=" bg-black w-full h-[50px] max-h-[100px] md:h-[60px] left-0 flex items-center px-4 right-0 top-0 text-base md:text-xl fi">
-        <div className="md:hidden text-xl mx-auto">
-          <span className="text-white font-bold space-x-2">Date</span>
-          <span className="mx-[2px] text-red-500 font-bold">Now</span>
-        </div>
-        <div
-          className="md:hidden flex w-12 top-1 right-2 absolute"
-          onClick={mobileView}
-        >
-          <img src={menu} alt="Menu" />
-        </div>
-        {/* Desktop View Navbar */}
-        <ul className="hidden md:flex items-center text-white space-x-10 ml-6 w-full">
-          <li className="relative group">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `${
-                  isActive ? "border-white" : "border-transparent"
-                } border-transparent border-b-2 transition-all p-1 duration-300 ease-in`
-              }
-            >
-              Home
-            </NavLink>
-          </li>
-          <li className="relative group">
-            <NavLink
-              to="/contact"
-              className={({ isActive }) =>
-                `${
-                  isActive ? "border-white" : "border-transparent"
-                } border-transparent border-b-2 p-1 transition-all duration-300 ease-in`
-              }
-            >
-              Contact Us
-            </NavLink>
-          </li>
-          <li className="relative group">
-            <NavLink
-              to="/about"
-              className={({ isActive }) =>
-                `${
-                  isActive ? "border-white" : "border-transparent"
-                } border-transparent border-b-2 p-1 transition-all duration-300 ease-in`
-              }
-            >
-              About Us
-            </NavLink>
-          </li>
-          <li className="relative group">
-            <NavLink
-              to="/talk"
-              className={({ isActive }) =>
-                `${
-                  isActive ? "border-white" : "border-transparent"
-                } border-transparent border-b-2 p-1 transition-all duration-300 ease-in`
-              }
-            >
-              General Talk
-            </NavLink>
-          </li>
+      {/* Main Navbar */}
+      <nav className="bg-gradient-to-r from-gray-900 via-black to-gray-900 backdrop-blur-md shadow-lg border-b border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            
+            {/* Logo */}
+            <div className="flex items-center space-x-2">
+              <Heart className="h-7 w-7 text-red-400 animate-pulse" />
+              <div className="text-2xl font-bold">
+                <span className="text-white">Date</span>
+                <span className="text-red-400">Now</span>
+              </div>
+            </div>
 
-          {/* DateNow Branding */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 text-2xl">
-            <span className="text-white font-bold">Date</span>
-            <span className="mx-[2px] text-red-500 font-bold">Now</span>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-8">
+              <NavLink to="/" className={navLinkClasses}>
+                Home
+              </NavLink>
+              <NavLink to="/about" className={navLinkClasses}>
+                About Us
+              </NavLink>
+              <NavLink to="/contact" className={navLinkClasses}>
+                Contact Us
+              </NavLink>
+              <NavLink to="/talk" className={navLinkClasses}>
+                General Talk
+              </NavLink>
+            </div>
+
+            {/* Desktop Auth Button */}
+            <div className="hidden md:flex items-center">
+              {user ? (
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-md transition-all duration-300 font-medium text-sm border border-red-500 hover:border-red-600 hover:shadow-md"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Logout</span>
+                </button>
+              ) : (
+                <NavLink
+                  to="/login"
+                  className="flex items-center space-x-2 bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-md transition-all duration-300 font-medium text-sm border border-red-500 hover:border-red-600 hover:shadow-md"
+                >
+                  <LogIn className="h-4 w-4" />
+                  <span>Login</span>
+                </NavLink>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button
+                onClick={toggleMobileMenu}
+                className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-red-400 hover:bg-gray-800 transition-all duration-300"
+              >
+                {isMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </button>
+            </div>
           </div>
-        </ul>
-        <div className="hidden md:flex">
-        {user ? (
-          <button
-            onClick={handleLogout}
-            className="flex bg-[#ffdad7] hover:bg-[#c3a4a2] text-black text-sm font-medium  py-2 px-3 rounded-full transition items-center"
-          >
-            <LogOut className="h-4 w-4 mr-1" />
-            Logout
-          </button>
-        ) : (
-          <NavLink
-            to="/login"
-            className="flex bg-red-500 hover:bg-[#F8A199] hover:text-black text-white text-sm font-medium py-2 px-3 rounded-full transition items-center"
-          >
-            <LogIn className="h-4 w-4 mr-1" />
-            Login
-          </NavLink>
-        )}
-        </div>
-      </div>
-      {/* ) : ( */}
-      <div className="mbmenu md:hidden z-50 top-[-500px] absolute bg-black w-full min-h-[380px] max-h-[500px]  md:h-[60px] left-0 flex flex-col items-center px-4 text-base text-white">
-        <div className="text-xl mx-auto my-4">
-          <span className="text-white font-bold space-x-2">Date</span>
-          <span className="mx-[2px] text-red-500 font-bold">Now</span>
-        </div>
-        <div className="flex w-12 top-1 right-2 absolute" onClick={rollback}>
-          <img src={menu} alt="Menu" />
         </div>
 
-        <NavLink
-          to="/"
-          onClick={rollback}
-          className={({ isActive }) =>
-            `${
-              isActive ? "border-white" : "border-transparent"
-            } border-transparent border-b-2 transition-all p-1 duration-300 ease-in my-3`
-          }
+        {/* Mobile Menu */}
+        <div 
+  className="mobile-menu md:hidden bg-gradient-to-b from-gray-900 to-black border-t border-gray-800 shadow-xl flex items-center justify-center"
+  style={{ display: "none" }}
+>
+  <div className="flex flex-col items-center justify-center space-y-2 px-4 py-8">
+    <NavLink 
+      to="/"
+      className={mobileNavLinkClasses}
+      onClick={closeMobileMenu}
+    >
+      Home
+    </NavLink>
+    <NavLink 
+      to="/about"
+      className={mobileNavLinkClasses}
+      onClick={closeMobileMenu}
+    >
+      About Us
+    </NavLink>
+    <NavLink 
+      to="/contact"
+      className={mobileNavLinkClasses}
+      onClick={closeMobileMenu}
+    >
+      Contact Us
+    </NavLink>
+    <NavLink 
+      to="/talk"
+      className={mobileNavLinkClasses}
+      onClick={closeMobileMenu}
+    >
+      General Talk
+    </NavLink>
+    
+    <div className="pt-4 mt-2 border-t border-gray-800">
+      {user ? (
+        <button
+          onClick={() => {
+            handleLogout();
+            closeMobileMenu();
+          }}
+          className="flex items-center justify-center space-x-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-6 py-3 rounded-full transition-all duration-300 shadow-md"
         >
-          Home
-        </NavLink>
+          <LogOut className="h-4 w-4" />
+          <span className="font-medium">Logout</span>
+        </button>
+      ) : (
         <NavLink
-          to="/contact"
-          onClick={rollback}
-          className={({ isActive }) =>
-            `${
-              isActive ? "border-white" : "border-transparent"
-            } border-transparent border-b-2 p-1 transition-all duration-300 ease-in my-3 `
-          }
+          to="/login"
+          onClick={closeMobileMenu}
+          className="flex items-center justify-center space-x-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-6 py-3 rounded-full transition-all duration-300 shadow-md"
         >
-          Contact Us
+          <LogIn className="h-4 w-4" />
+          <span className="font-medium">Login</span>
         </NavLink>
-        <NavLink
-          to="/about"
-          onClick={rollback}
-          className={({ isActive }) =>
-            `${
-              isActive ? "border-white" : "border-transparent"
-            } border-transparent border-b-2 p-1 transition-all duration-300 ease-in my-3 mb-7`
-          }
-        >
-          About Us
-        </NavLink>
-        <NavLink
-          to="/talk"
-          onClick={rollback}
-          className={({ isActive }) =>
-            `${
-              isActive ? "border-white" : "border-transparent"
-            } border-transparent border-b-2 p-1 transition-all duration-300 ease-in my-3 mb-7`
-          }
-        >
-          General Talk
-        </NavLink>
-        {user ? (
-          <button
-            onClick={handleLogout}
-            className="flex bg-[#ffdad7] hover:bg-[#c3a4a2] text-white text-sm font-medium py-2 px-3 rounded-full transition items-center"
-          >
-            <LogOut className="h-4 w-4 mr-1" />
-            Logout
-          </button>
-        ) : (
-          <NavLink
-            to="/login"
-            onClick={rollback}
-            className="flex bg-red-500 hover:bg-[#F8A199] hover:text-black text-white text-sm font-medium py-2 px-3 rounded-full transition items-center"
-          >
-            <LogIn className="h-4 w-4 mr-1" />
-            Login
-          </NavLink>
-        )}
-      </div>
-      {/* )} */}
+      )}
+    </div>
+  </div>
+</div>
+      </nav>
     </>
   );
 }

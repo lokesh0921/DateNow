@@ -77,7 +77,7 @@ function Login() {
       <div className="bg-[#ffdad7] p-8 md:p-12 rounded-xl shadow-2xl mx-5 md:mx-0 flex flex-col justify-between max-w-md w-full">
         <div className="overflow-y-auto mb-4">
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-center mb-8">
+            <h1 className="text-3xl font-bold text-center mb-8 text-black">
               {isLogin ? "Welcome Back" : "Create Account"}
             </h1>
 
@@ -110,7 +110,7 @@ function Login() {
 
             <div className="flex items-center justify-center gap-2">
               <div className="h-px bg-gray-300 flex-1"></div>
-              <span className="text-gray-500 text-sm">OR</span>
+              <span className="text-black font-semibold text-sm ">OR</span>
               <div className="h-px bg-gray-300 flex-1"></div>
             </div>
 

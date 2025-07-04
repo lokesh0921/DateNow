@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from 'date-fns'; // Optional: for relative time formatting
+import sound from "../../assets/notification.mp3";
 
 const socket = io(import.meta.env.VITE_BACKEND_URL, {
   transports: ["websocket"],
@@ -63,6 +64,8 @@ function Talk() {
       socket.on("m", (msg) => {
         // Check if the message is not from the current user
         if (msg.userid !== user.uid) {
+          const notification = new Audio(sound);
+          notification.play();    
           setMessages((prevMessages) => [...prevMessages, { 
             role: "Server", 
             text: msg.text, 
