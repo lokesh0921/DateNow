@@ -285,11 +285,11 @@ const SYSTEM_PROMPTS = [
             </div>
           </>
         ) : (
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center h-full">
             <img
               src={GIF}
               alt="Loading"
-              className="mb-3"
+              className="mb-3 "
             />
             <p className="text-center text-lg font-semibold text-gray-700">{answer}</p>
           </div>

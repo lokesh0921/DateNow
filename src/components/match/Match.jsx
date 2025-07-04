@@ -83,7 +83,7 @@ function Match() {
         <div className="flex justify-center">
           <h1 className="text-3xl font-bold">Your Partner</h1>
         </div>
-        <div className="flex flex-col md:flex-row md:justify-between items-center mt-3">
+        <div className="text-black flex flex-col md:flex-row md:justify-between items-center mt-3">
           {/* Local User's Profile */}
           <div className="sm:rounded-lg md:shadow-2xl mt-12 md:mt-0 h-[100px] md:h-[300px] w-[300px] flex flex-col items-center justify-center">
             <img
