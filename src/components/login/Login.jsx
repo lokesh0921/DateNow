@@ -114,7 +114,7 @@ function Login() {
               <div className="h-px bg-gray-300 flex-1"></div>
             </div>
 
-            <form className="space-y-4" onSubmit={handleAuth}>
+            <form className="space-y-4 text-black" onSubmit={handleAuth}>
               {!isLogin && (
                 <div className="relative">
                   <User
