@@ -5,6 +5,7 @@ import Footer from "./components/footer/Footer";
 import Cursor from "./components/Cursor/Cursor";
 import { Analytics } from "@vercel/analytics/react";
 import { AuthProvider } from "./context/AuthContext";
+import { ToastContainer } from 'react-toastify';
 
 function Layout() {
   return (
@@ -16,6 +17,7 @@ function Layout() {
         <main className="flex-grow">
           <Outlet />
         </main>
+        <ToastContainer />
         <Footer />
       </div>
     </AuthProvider>

@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../auth";
 import { Mail, Lock, User, ArrowRight } from "lucide-react";
+import { toast } from 'react-toastify';
 const provider = new GoogleAuthProvider();
 
 function Login() {
@@ -42,17 +43,36 @@ function Login() {
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
-        alert("Sign in successful!");
+        toast.success("✅ Logged in successfully!", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            })
       } else {
         const userCredential =await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
+        user.displayName = username;
 
         // Update the user's profile with their full name
         await updateProfile(user, { displayName: username });
         setIsLogin(true);
-        alert("Account created successfully!");
+        toast.success("🎉 Registration successful!", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
       }
-      navigate("/talk");
+      navigate("/");
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -61,7 +81,16 @@ function Login() {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithPopup(auth, provider);
-      alert("Google Sign-In successful!");
+      toast.success("✅ Logged in successfully!", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            })
       navigate("/talk");
     } catch (error) {
       setErrorMessage(error.message);
