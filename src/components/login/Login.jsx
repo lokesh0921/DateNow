@@ -60,7 +60,7 @@ function Login() {
 
         // Update the user's profile with their full name
         await updateProfile(user, { displayName: username });
-        setIsLogin(true);
+        
         toast.success("🎉 Registration successful!", {
               position: "top-right",
               autoClose: 3000,
@@ -73,6 +73,7 @@ function Login() {
             });
       }
       navigate("/");
+      setIsLogin(true);
     } catch (error) {
       setErrorMessage(error.message);
     }

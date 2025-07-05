@@ -158,7 +158,7 @@ function Talk() {
                             />
                           </div>
                         </div>
-                        <div className="chat-header text-black">
+                        <div className="chat-header text-black c">
                           {message.displayName}
                           
                         </div>
@@ -177,7 +177,7 @@ function Talk() {
                             />
                           </div>
                         </div>
-                        <div className="chat-header text-black">
+                        <div className="chat-header text-black font-semibold">
                           {message.displayName}
                           
                         </div>
