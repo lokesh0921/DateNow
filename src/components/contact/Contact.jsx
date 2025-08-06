@@ -127,7 +127,7 @@ export default function Contact() {
                     />
                   </svg>
                   <div className=" ml-4 text-md tracking-wide font-semibold w-40">
-                    +91 9064820217
+                    +91 90648xxxxx
                   </div>
                 </div>
 
