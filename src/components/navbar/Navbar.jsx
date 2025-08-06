@@ -121,6 +121,9 @@ function Navbar() {
               <NavLink to="/talk" className={navLinkClasses}>
                 General Talk
               </NavLink>
+              <NavLink to="/personality" className={navLinkClasses}>
+                Personality Check
+              </NavLink>
             </div>
 
             {/* Desktop Auth Button */}
@@ -193,6 +196,13 @@ function Navbar() {
       onClick={closeMobileMenu}
     >
       General Talk
+    </NavLink>
+    <NavLink 
+      to="/personality"
+      className={mobileNavLinkClasses}
+      onClick={closeMobileMenu}
+    >
+      Personality Check
     </NavLink>
     
     <div className="pt-4 mt-2 border-t border-gray-800">
