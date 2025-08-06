@@ -124,10 +124,6 @@ VITE_BACKEND_URL=https://datenow-backend.onrender.com
 3. Create a new API key
 4. Copy the API key to your `.env` file as `VITE_GEMINI_API_KEY`
 
-**Important**: Keep your API keys secure and never commit them to version control.
-
-## 📜 Available Scripts
-
 ```bash
 
 ## 📁 Project Structure
@@ -153,39 +149,6 @@ src/
 └── Layout.jsx          # Layout wrapper component
 ```
 
-## 🔗 Backend Integration
-
-This frontend can work with either:
-
-### Option 1: Hosted Backend (Default)
-- **Backend URL**: `https://datenow-backend.onrender.com`
-- **Setup**: Just use the default environment variable
-- **Note**: ⚠️ **Cold Start Delay**: The hosted backend may take 1-2 minutes to respond if it hasn't been used recently. This is normal for free hosting services.
-
-### Option 2: Local Backend
-If you prefer to run the backend locally:
-
-1. Clone the backend repository: [DateNow-Backend](https://github.com/yourusername/DateNow-Backend)
-2. Follow the backend setup instructions
-3. Set `VITE_BACKEND_URL=http://localhost:9000` in your `.env` file
-4. Ensure both frontend and backend are running simultaneously
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Run `vercel` in the project directory
-3. Follow the prompts
-4. Add environment variables in Vercel dashboard
-
-### Manual Build
-
-```bash
-npm run build
-```
-
-Deploy the `dist` folder to your preferred hosting service.
 
 ## 🤝 Contributing
 
@@ -226,10 +189,6 @@ We welcome contributions! Please follow these steps:
 - Check network connectivity
 - Validate environment variables
 
-**Build Errors**
-- Clear node_modules: `rm -rf node_modules && npm install`
-- Clear Vite cache: `npm run dev -- --force`
-
 ### Backend Status Check
 Visit `https://datenow-backend.onrender.com` in your browser. You should see a message confirming the server is running.
 
@@ -239,8 +198,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Team
 
-- **Lead Developer**: [Your Name]
-- **Contributors**: See [CONTRIBUTORS.md](CONTRIBUTORS.md)
+- **Lead Developer**: Anurag Yadav
 
 ## 🙏 Acknowledgments
 
@@ -248,14 +206,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Google for Gemini AI
 - React community for amazing tools
 - All contributors who help improve this project
-
-## 📞 Support
-
-If you have any questions or need help:
-
-- Create an issue on GitHub
-- Join our community discussions
-- Check the documentation
 
 ---
 
@@ -291,46 +241,4 @@ Go to the Google AI Studio website.
 Sign in with your Google account.
 Navigate to the Generative AI section and create a new project or use an existing one.
 Once your project is set up, generate an API key from the API & Services section.
-Copy the generated API key and paste it into your .env file under VITE_GEMINI_API_KEY.
-
-### Installation
-
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/anurag2787/datenow.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd datenow
-   ```
-3. Install the dependencies:
-   ```bash
-   npm install
-   ```
-
-### Running the Application
-
-1. Start the development server:
-   ```bash
-   npm run dev
-   ```
-2. Open your browser and go to `http://localhost:5173`. 
-
-## Usage
-
-1. Enter your details on the landing page to find a partner.
-2. Once matched, initiate a chat with your partner.
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute, please fork the repository and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License.
-
-## Acknowledgments
-
-- [Google Gemini](https://aistudio.google.com/) for the chat API.
-- Inspiration from various partner-matching platforms.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+Copy the generated API key and paste it into your .env file under VITE_GEMINI_API_KEY.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
