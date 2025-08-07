@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Details() {
@@ -78,8 +78,11 @@ function Details() {
                 placeholder="Age"
                 value={age}
                 onChange={(e) => {
-                  setAge(e.target.value);
-                  setErrors((prev) => ({ ...prev, age: "" }));
+                  const val = e.target.value;
+                  if (Number.isInteger(Number(val))) {
+                    setAge(val);
+                    setErrors((prev) => ({ ...prev, age: "" }));
+                  }
                 }}
                 className={`w-100 mt-2 py-3 px-3 rounded-lg bg-white border text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white-500 ${
                   errors.age ? "border-2 border-red-500" : "border-black"
