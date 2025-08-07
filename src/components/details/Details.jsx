@@ -7,32 +7,31 @@ function Details() {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
 
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!name.trim()) newErrors.name = "This field is required *";
+    if (!age) newErrors.age = "This field is required *";
+    else if (parseInt(age) <= 0) newErrors.age = "Please enter a valid age *";
+    if (!gender) newErrors.gender = "This field is required *";
+
+    return newErrors;
+  };
+
   const pressed = (e) => {
     e.preventDefault(); // Prevent the form from refreshing the page
 
+    const validationErrors = validate();
+    setErrors(validationErrors);
 
-    if(!name){
-      alert('Please Provide Your Name');
-      return;
+    if (Object.keys(validationErrors).length === 0) {
+      localStorage.setItem("name", name);
+      localStorage.setItem("age", age);
+      localStorage.setItem("gender", gender);
+      navigate("/match");
     }
-    if(!age){
-
-      alert('Please Provide Your Age');
-      return;
-    }
-    if(age<=0){
-      alert('Please Provide Your Correct Age');
-      return;
-    }
-    if(!gender){
-      alert('Please Provide Your Gender');
-      return;
-    }
-    localStorage.setItem("name", name);
-    localStorage.setItem("age", age);
-    localStorage.setItem("gender", gender);
-
-    navigate("/match");
   };
 
   return (
@@ -55,9 +54,17 @@ function Details() {
                 id="name"
                 placeholder="Full Name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-100 md:w-[400px] mt-2 py-3 px-3 rounded-lg bg-white border border-black text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white-500"
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setErrors((prev) => ({ ...prev, name: "" }));
+                }}
+                className={`w-100 md:w-[400px] mt-2 py-3 px-3 rounded-lg bg-white border text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white-500 ${
+                  errors.name ? "border-2 border-red-500 " : "border-black"
+                }`}
               />
+              {errors.name && (
+                <span className="text-red-500 text-sm mt-1">{errors.name}</span>
+              )}
             </div>
 
             <div className="flex flex-col mt-2">
@@ -70,9 +77,17 @@ function Details() {
                 id="age"
                 placeholder="Age"
                 value={age}
-                onChange={(e) => setAge(e.target.value)}
-                className="w-100 mt-2 py-3 px-3 rounded-lg bg-white border border-black text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white-500"
+                onChange={(e) => {
+                  setAge(e.target.value);
+                  setErrors((prev) => ({ ...prev, age: "" }));
+                }}
+                className={`w-100 mt-2 py-3 px-3 rounded-lg bg-white border text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white-500 ${
+                  errors.age ? "border-2 border-red-500" : "border-black"
+                }`}
               />
+              {errors.age && (
+                <span className="text-red-500 text-sm mt-1">{errors.age}</span>
+              )}
             </div>
 
             <div className="flex flex-col mt-2">
@@ -83,8 +98,13 @@ function Details() {
                 id="gender"
                 name="gender"
                 value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                className="bg-white h-11 mt-2 w-150 border text-black rounded-lg py-2 px-3 border-black focus:outline-none focus:ring-2 focus:ring-white-500"
+                onChange={(e) => {
+                  setGender(e.target.value);
+                  setErrors((prev) => ({ ...prev, gender: "" }));
+                }}
+                className={`bg-white h-11 mt-2 w-150 border text-black rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-white-500 ${
+                  errors.gender ? "border-2 border-red-500" : "border-black"
+                }`}
               >
                 <option value="" disabled>
                   Select your gender
@@ -93,6 +113,11 @@ function Details() {
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
               </select>
+              {errors.gender && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.gender}
+                </span>
+              )}
             </div>
 
             <button
